@@ -23,15 +23,19 @@ const EXPORT_URL = 'https://image.tmdb.org/t/p';
       </div>
     </div>
 
-    <div class="info-panel grid grid-cols-3 gap-x-4">
-      <InfoPair property="Genre" :value="props.film.genres.map(g => g.name).join(', ')" />
-      <InfoPair property="Runtime" :value="`${(props.film.runtime || 0) / 60} h`" />
-      <InfoPair property="Budget" :value="props.film.budget || 0" />
-      <InfoPair property="Popularity" :value="props.film.popularity || 0" />
-      <InfoPair v-if="props.film.production_companies" property="Companies" :value="props.film.production_companies.map(g => g.name).join(', ')" />
-      <InfoPair v-if="props.film.production_countries" property="Countries" :value="props.film.production_countries.map(g => g.name).join(', ')" />
-      <InfoPair v-if="props.film.revenue" property="Revenue" :value="props.film.revenue" />
-      <InfoPair v-if="props.film.release_date" property="Release" :value="props.film.release_date" />
+    <div class="info-panel flex gap-4 justify-between">
+      <div class="info-panel">
+        <InfoPair v-if="props.film.production_companies" property="Companies" :value="props.film.production_companies.map(g => g.name).join(', ')" />
+        <InfoPair v-if="props.film.production_countries" property="Countries" :value="props.film.production_countries.map(g => g.name).join(', ')" />
+        <InfoPair property="Revenue" :value="props.film.revenue" />
+        <InfoPair v-if="props.film.release_date" property="Release" :value="props.film.release_date" />
+      </div>
+      <div class="flex flex-col items-end">
+        <InfoPair property="Genre" :value="props.film.genres.map(g => g.name).join(', ')" />
+        <InfoPair property="Runtime" :value="`${(props.film.runtime || 0) / 60} h`" />
+        <InfoPair property="Popularity" :value="props.film.popularity || 0" />
+        <InfoPair property="Budget" :value="props.film.budget || 0" />
+      </div>
     </div>
   </div>
 </template>
