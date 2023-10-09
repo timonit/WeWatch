@@ -9,6 +9,8 @@ const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);
 const searchText = ref<string>('');
 
+const emit = defineEmits<{(e: 'selectFilm', film: Film): void}>();
+
 const film: Film[] = [
   {
     adult: false,
@@ -90,19 +92,27 @@ const film: Film[] = [
   }
 ]
 
-const handler = (film: Film) => {
-  console.log(film);
+const handler = async (film: Film) => {
+  emit('selectFilm', film);
 }
 
-const autoSearch = debounce((e: Event) => {
+const autoSearch = debounce(async (e: Event) => {
   if (searchText.value.trim()) {
     isLoading.value = true;
-    setTimeout(() => {
-      if (searchText.value.trim()) {
-        results.value = [...film, ...film];
-        isLoading.value = false;
-      }
-    }, 800);
+    
+    if (searchText.value.trim()) {
+      const result = await useFetch(
+        '/api/film/search',
+        {
+          query: { query: searchText },
+        }
+      );
+
+      results.value = result.data.value?.results;
+      isLoading.value = false;
+    }
+    // setTimeout(() => {
+    // }, 800);
   } else {
     results.value = [];
     isLoading.value = false;
