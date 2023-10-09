@@ -1,18 +1,28 @@
 <script setup lang="ts">
 type Variant = 'paragraph' | 'simple' | 'bold' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-const props = defineProps<{variant: Variant}>();
+enum FONT_SIZE {
+  'sm' = '0.8em',
+  'md' = '1em',
+  'lg' = '1.2em',
+}
+
+const props = defineProps<{ size?: keyof typeof FONT_SIZE; variant: Variant; }>();
+
+const style = reactive({
+    'font-size': FONT_SIZE[props.size || 'md']
+});
 </script>
 
 <template>
   <div>
-    <p v-if="props.variant === 'paragraph'" class="mt-2">
+    <p v-if="props.variant === 'paragraph'" class="mt-2" :style="style">
       <slot></slot>
     </p>
-    <span v-if="props.variant === 'simple'">
+    <span v-if="props.variant === 'simple'" :style="style">
       <slot></slot>
     </span>
-    <b v-if="props.variant === 'bold'">
+    <b v-if="props.variant === 'bold'" :style="style">
       <slot></slot>
     </b>
     <h1 v-if="props.variant === 'h1'">
@@ -32,59 +42,55 @@ const props = defineProps<{variant: Variant}>();
     </h5>
     <h6 v-if="props.variant === 'h6'">
       <slot></slot>
-    </h6>  
+    </h6>
   </div>
 </template>
 
 <style scoped lang="scss">
-  div {
-    display: inline;
-  }
+div {
+  display: inline;
+}
 
-  p,span,b {
-    font-size: 13pt;
-  }
+
+p {
+  line-height: 1.2em;
   
-  p::first-letter {
+  &::first-letter {
     padding-left: 1em;
-    font-size: 15pt;
   }
+}
 
-  p {
-    line-height: 1.2em;
-  }
+b {
+  font-weight: 900;
+}
 
-  b { 
-    font-weight: 900;
-  }
+h1 {
+  font-size: 30pt;
+  font-weight: 800;
+}
 
-  h1 {
-    font-size: 30pt;
-    font-weight: 800;
-  }
+h2 {
+  font-size: 22pt;
+  font-weight: 700;
+}
 
-  h2 {
-    font-size: 22pt;
-    font-weight: 700; 
-  }
+h3 {
+  font-size: 22pt;
+  font-weight: 300;
+}
 
-  h3 {
-    font-size: 22pt;
-    font-weight: 300;
-  }
+h4 {
+  font-size: 20pt;
+  font-weight: 700;
+}
 
-  h4 {
-    font-size: 20pt;
-    font-weight: 700;
-  }
+h5 {
+  font-size: 20pt;
+  font-weight: 300;
+}
 
-  h5 {
-    font-size: 20pt;
-    font-weight: 300;
-  }
-
-  h6 {
-    font-size: 16pt;
-    font-weight: 600;
-  }
+h6 {
+  font-size: 16pt;
+  font-weight: 600;
+}
 </style>

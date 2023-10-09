@@ -7,8 +7,8 @@ const props = defineProps<{property: string; value: string | number}>();
 <template>
   <div>
     <div>
-      <AppText variant="bold">{{ props.property }}: </AppText>
-      <AppText variant="simple">{{ props.value }}</AppText>
+      <AppText variant="bold" size="sm">{{ props.property }}: </AppText>
+      <AppText variant="simple" size="sm">{{ props.value }}</AppText>
     </div>
   </div>
 </template>
