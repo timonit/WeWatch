@@ -13,9 +13,9 @@ const emit = defineEmits<{
       v-for="item of props.list"
       class="px-3 py-2 mr-2 rounded-lg"
       @click="$emit('selected', item)"
-      :title="item.title"
+      :title="`${item.title} ${item.release_date}`"
     >
-      {{ item.title }}
+      {{ item.title }} ( {{ new Date(item.release_date).getFullYear() }} )
     </li>
   </ul>
 </template>
@@ -23,6 +23,7 @@ const emit = defineEmits<{
 <style scoped lang="scss">
 li {
   cursor: pointer;
+  font-size: .8em;
 
   &:hover {
     background-color: rgba($color: #000, $alpha: 0.2);

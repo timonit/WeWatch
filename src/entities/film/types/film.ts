@@ -11,6 +11,7 @@ export type Film = {
   belongs_to_collection?: any;
   budget: number;
   genres: Genre[];
+  genre_ids: number[];
   homepage?: string;
   id: number;
   imdb_id?: string;
