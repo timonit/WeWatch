@@ -8,7 +8,7 @@ const props = defineProps<{title: string}>();
       <slot name="header"></slot>
     </header>
     <div class="flex flex-row w-full max-md:flex-col">
-      <aside class="md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0 self-start">
+      <aside class="md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
         <slot name="side"></slot>
       </aside>
       <main class="w-full px-4 rounded-md">

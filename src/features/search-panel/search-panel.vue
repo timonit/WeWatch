@@ -111,8 +111,6 @@ const autoSearch = debounce(async (e: Event) => {
       results.value = result.data.value?.results;
       isLoading.value = false;
     }
-    // setTimeout(() => {
-    // }, 800);
   } else {
     results.value = [];
     isLoading.value = false;
