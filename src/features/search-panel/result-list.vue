@@ -13,9 +13,9 @@ const emit = defineEmits<{
       v-for="item of props.list"
       class="px-3 py-2 mr-2 rounded-lg"
       @click="$emit('selected', item)"
-      :title="`${item.title} ${item.release_date}`"
+      :title="`${item.title}`"
     >
-      {{ item.title }} ( {{ new Date(item.release_date).getFullYear() }} )
+      {{ item.title }} ({{ new Date(item.release_date).getFullYear() }})
     </li>
   </ul>
 </template>

@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   srcDir: './src/',
-  css: ['@/app/style.scss', '@/shared/common.scss'],
+  css: [
+    '@/app/style.scss',
+    '@/shared/common.scss',
+    'mono-icons/iconfont/icons.css'
+  ],
   postcss: {
     plugins: {
       'postcss-import': {},

@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
       }
     }
   );
-  console.log('id: ', id);
-  console.log('film: ', res);
+  
   return res;
 });
