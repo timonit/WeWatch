@@ -3,6 +3,7 @@ import AppHeader from '@/widgets';
 import { Film, FilmCard } from '~/entities/film';
 import { SearchPanel } from '~/features';
 import { FormInput } from '~/shared';
+import BadgeWw from '~/shared/ui/badge-ww.vue';
 import AppText from '~/shared/ui/typography/app-text.vue';
 
 const film: Film = {
@@ -110,6 +111,15 @@ const film: Film = {
       <h1 class="row">search-panel</h1>
       <div class="row w-[250px]">
         <SearchPanel />
+      </div>
+    </div>
+
+    <div>
+      <h1 class="row">badge-ww</h1>
+      <div class="w-full grid grid-cols-3 gap-2">
+        <badge-ww color="danger">Badge</badge-ww>
+        <badge-ww color="success">Badge</badge-ww>
+        <badge-ww color="warning">Badge</badge-ww>
       </div>
     </div>
   </div>

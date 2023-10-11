@@ -3,7 +3,6 @@ export default defineEventHandler(async (event) => {
   if (!search.get('query')) throw new Error('query required'); 
   const query = search.get('query');
   const lang = 'ru-RU';
-  console.log('ENV', process.env.API_KEY);
   const res = await event.$fetch(
     `https://api.themoviedb.org/3/search/movie`,
     {
