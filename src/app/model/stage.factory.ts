@@ -1,5 +1,4 @@
-import { BaseApp } from '~/shared/model/base-app';
-import { StageApp } from '~/shared/model/stage.app';
+import { BaseApp, StageApp } from '~/shared/model';
 
 export class StageFactory {
   constructor(private app: BaseApp) {}

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import AppText from '@/shared/ui/typography/app-text.vue';
-import BadgeWw from '@/shared/ui/badge-ww.vue';
+import { AppText, BadgeWW } from '@/shared/ui';
 import { Film } from '../../types';
 import InfoPair from './info-pair.vue';
 
@@ -33,15 +32,15 @@ const EXPORT_URL = 'https://image.tmdb.org/t/p';
       </div>
       <div class="flex flex-col items-end gap-6">
         <div class="flex flex-wrap justify-end gap-2">
-          <badge-ww v-for="g of props.film.genres" color="danger" class="text-sm">{{ g.name }}</badge-ww>
+          <BadgeWW v-for="g of props.film.genres" color="danger" class="text-sm">{{ g.name }}</BadgeWW>
         </div>
-        <badge-ww color="danger" class="text-sm whitespace-nowrap">
+        <BadgeWW color="danger" class="text-sm whitespace-nowrap">
           {{ props.film.status }}
-        </badge-ww>
-        <badge-ww color="danger" title="Продолжительность" class="text-sm whitespace-nowrap">
+        </BadgeWW>
+        <BadgeWW color="danger" title="Продолжительность" class="text-sm whitespace-nowrap">
           <i class="mi-clock mr-1"></i>
           {{ props.film.runtime || 0 }} min
-        </badge-ww>
+        </BadgeWW>
       </div>
     </div>
   </div>

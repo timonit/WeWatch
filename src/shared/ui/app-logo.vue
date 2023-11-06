@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { AppText } from '../typography';
-
-</script>
-
 <template>
   <div>
     <NuxtLink to="/">

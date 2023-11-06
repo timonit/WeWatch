@@ -1,4 +1,3 @@
-import { useState } from '#imports';
 import { UserInfo } from '../user-info';
 
 type AuthState = {

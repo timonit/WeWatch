@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, useFetch } from '#imports';
 import { Film, FilmCard } from '~/entities/film';
-import { SearchPanel } from '~/features';
-import { AppText } from '~/shared';
+import { SearchPanel } from '~/features/film';
+import { AppText } from '~/shared/ui';
 
 const currentFilm = ref<Film | null>(null);
 

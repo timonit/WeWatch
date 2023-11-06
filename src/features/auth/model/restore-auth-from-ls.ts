@@ -1,8 +1,6 @@
-import { AuthAPI } from '~/entities/auth/model/auth.api';
-import { getTokenFromLS } from '~/shared/lib/get-token-from-ls';
-import { saveTokenToLS } from '~/shared/lib/save-token-to-ls';
-import { TokenData } from '~/shared/lib/types';
-import { Feature } from '~/shared/model/feature';
+import { AuthAPI } from '~/entities/auth';
+import { getTokenFromLS, saveTokenToLS, TokenData } from '~/shared/utils';
+import { Feature } from '~/shared/model';
 
 export class RestoreAuthFromLSFeature extends Feature<Promise<TokenData | undefined>> {
   async execute(): Promise<TokenData | undefined> {

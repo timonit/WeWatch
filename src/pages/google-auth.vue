@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InitAuthTokens from '~/features/auth/ui/init-auth-tokens.vue';
+import { InitAuthTokensFC } from '~/features/auth';
 
 onBeforeMount(async () => {
   // переходим и запрещаем переходить назад на авторизационную страницу
@@ -10,6 +10,6 @@ onBeforeMount(async () => {
 
 <template>
   <NuxtLayout name="empty">
-    <InitAuthTokens />
+    <InitAuthTokensFC />
   </NuxtLayout>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { AuthAPI } from '~/entities/auth/model/auth.api';
-import { saveTokenToLS } from '~/shared/lib/save-token-to-ls';
-import { TokenData } from '~/shared/lib/types';
+import { AuthAPI } from '~/entities/auth';
+import { saveTokenToLS, TokenData } from '~/shared/utils';
 
 const route = useRoute();
 const tokenState = useState<TokenData | null>('state', () => null);
@@ -31,3 +30,4 @@ onBeforeMount(async () => {
 <template>
   <div>Authorizing...</div>
 </template>
+~/shared/utils/save-token-to-ls~/shared/utils/types

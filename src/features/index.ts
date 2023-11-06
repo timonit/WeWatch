@@ -1,3 +1,2 @@
-import SearchPanel from './search-panel/search-panel.vue';
-
-export { SearchPanel };
+export * as auth from './auth';
+export * as film from './film';

@@ -1,5 +1,5 @@
-import { AuthAPI } from '~/entities/auth/model/auth.api';
-import { StageApp } from '~/shared/model/stage.app';
+import { AuthAPI } from '~/entities/auth';
+import { StageApp } from '~/shared/model';
 
 export class LoadStage extends StageApp {
   status = 'loading';

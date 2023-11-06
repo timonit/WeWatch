@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from '#imports';
 import { LogoutFeature } from '../model/logout.feature';
 
 const logoutHandler = () => {
