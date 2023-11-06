@@ -1,3 +1,5 @@
+import { defineEventHandler } from '#imports';
+
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id;
   const lang = 'ru-RU';

@@ -4,6 +4,7 @@ import ResultList from './result-list.vue';
 import { Film } from '@/entities/film';
 import { debounce } from 'lodash';
 import AppLoader from '~/shared/ui/loader/app-loader.vue';
+import { ref, useFetch } from '#imports';
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);

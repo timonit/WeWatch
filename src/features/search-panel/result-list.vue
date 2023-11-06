@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from '#imports';
 import { Film } from '~/entities/film';
 
 const props = defineProps<{list: Film[]}>();

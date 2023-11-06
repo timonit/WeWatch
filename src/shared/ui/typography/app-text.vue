@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { reactive } from '#imports';
+
 type Variant = 'paragraph' | 'simple' | 'bold' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 enum FONT_SIZE {

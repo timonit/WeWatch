@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import AppLogo from '~/shared/ui/logo/app-logo.vue';
+import GoogleLogin from '@/features/auth/ui/google-login.vue';
+import { useAuthState } from '~/entities/auth/model/auth.state';
+import LogoutFc from '~/features/auth/ui/logout.fc.vue';
 
+const authState = useAuthState();
 </script>
 
 <template>
@@ -9,7 +13,12 @@ import AppLogo from '~/shared/ui/logo/app-logo.vue';
       <AppLogo />
     </div>
     <div class="w-1/2 text-right">
-      login
+      <GoogleLogin v-if="!authState.authorazed" />
+      <div v-if="authState.authorazed" class="flex justify-end items-center gap-2" >
+        <span>{{ authState.userInfo.given_name }}</span>
+        <img class="h-6" :src="authState.userInfo.picture" />
+        <LogoutFc />
+      </div>
     </div>
   </div>
 </template>
