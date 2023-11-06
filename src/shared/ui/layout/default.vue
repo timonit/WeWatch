@@ -1,18 +1,26 @@
 <script setup lang="ts">
-const props = defineProps<{title: string}>();
+import AppHeader from '~/widgets';
+import { app } from '~/app/model/app';
+
+onBeforeMount(async () => {
+  await app.init();
+})
 </script>
 
 <template>
-  <div class='layout-container w-3/3 flex flex-col gap-4'>
+  <div class='layout-container w-3/3 flex flex-col gap-4 px-2'>
+    
     <header>
-      <slot name="header"></slot>
+      <AppHeader />
     </header>
-    <div class="flex flex-row w-full max-md:flex-col">
+    
+    <div v-if="!app.isInited">loaded...</div>
+    <div v-else class="flex flex-row w-full max-md:flex-col">
       <aside class="md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
         <slot name="side"></slot>
       </aside>
       <main class="w-full px-4 rounded-md">
-        <slot ></slot>
+        <slot></slot>
       </main>
     </div>
   </div>

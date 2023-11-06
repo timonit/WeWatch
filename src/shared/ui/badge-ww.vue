@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { reactive } from '#imports';
+
 const defaultColor = [ 'danger', 'success', 'warning' ];
 type BadgeColor = string | typeof defaultColor[number];
 

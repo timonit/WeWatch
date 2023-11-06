@@ -1,3 +1,5 @@
+import { defineEventHandler, getRequestURL } from '#imports';
+
 export default defineEventHandler(async (event) => {
   const search = getRequestURL(event).searchParams;
   if (!search.get('query')) throw new Error('query required'); 
@@ -17,3 +19,4 @@ export default defineEventHandler(async (event) => {
 
   return res;
 });
+ 

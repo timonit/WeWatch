@@ -1,5 +1,5 @@
 import { Directive } from 'nuxt/dist/app/compat/capi'; 
-import { computePosition, ComputePositionConfig, flip, offset } from '@floating-ui/dom';
+import { computePosition, ComputePositionConfig, flip, offset, Placement } from '@floating-ui/dom';
 import { TooltipBinding } from './types';
 
 type Options = {
@@ -49,4 +49,6 @@ const tooltip: Directive<HTMLElement, HTMLElement> = (
   });
 };
 
-export default tooltip;
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.directive('tooltip', tooltip);
+});

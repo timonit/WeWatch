@@ -1,5 +1,5 @@
 import { Placement } from '@floating-ui/vue';
-import { DirectiveBinding } from 'nuxt/dist/app/compat/capi';
+import { DirectiveBinding } from 'vue';
 
 export type TooltipBinding = {
   value: HTMLElement,

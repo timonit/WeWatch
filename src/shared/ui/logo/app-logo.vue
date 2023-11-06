@@ -5,8 +5,10 @@ import { AppText } from '../typography';
 
 <template>
   <div>
-    <span class="we">We</span>
-    <span class="watch">Watch</span>
+    <NuxtLink to="/">
+      <span class="we">We</span>
+      <span class="watch">Watch</span>
+    </NuxtLink>
   </div>
 </template>
 

@@ -5,7 +5,6 @@ import { Film } from '../../types';
 import InfoPair from './info-pair.vue';
 
 const props = defineProps<{film: Film}>();
-console.log({...props.film});
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
 </script>
 
