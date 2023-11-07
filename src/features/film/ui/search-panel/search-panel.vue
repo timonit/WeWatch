@@ -3,7 +3,7 @@ import { AppText, FormInput, AppLoader } from '~/shared/ui';
 import ResultList from './result-list.vue';
 import { Film } from '~/entities/film';
 import lo from 'lodash';
-import { DBAPI } from '~/shared/utils';
+import { DBAPI } from '~/entities/film';
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);

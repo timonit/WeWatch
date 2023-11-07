@@ -1,4 +1,5 @@
 export * from './form';
+export * from './toolbar';
 
 import AppText from './app-text.vue';
 import AppLoader from './app-loader.vue';

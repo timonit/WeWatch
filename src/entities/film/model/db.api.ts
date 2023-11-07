@@ -1,8 +1,19 @@
-import { GoogleAPI } from './google.api';
+import { GoogleAPI } from '~/shared/utils';
+import { Film } from '../types';
+
+type MainDataFilm = {
+  title: Film['title'];
+  id: Film['id'];
+}
 
 type DBData = {
   appName: string,
-  [p: string]: any,
+  list: MainDataFilm[],
+}
+
+const initDBData: DBData = {
+  appName: "WeWatch",
+  list: [],
 }
 
 export class DBAPI extends GoogleAPI {
@@ -14,7 +25,7 @@ export class DBAPI extends GoogleAPI {
   descriptionFile = 'Data base file by WeWatch';
   idFile?: string;
 
-  data: DBData = {appName: "WeWatch"};
+  data: DBData = initDBData;
 
   async onInited() {
     try {
@@ -38,7 +49,7 @@ export class DBAPI extends GoogleAPI {
       method: 'PATCH',
       body: this.data
     });
-    console.log('dbfile', dbfile);
+    console.log('saved', dbfile);
   }
 
   async getDBFile() {
