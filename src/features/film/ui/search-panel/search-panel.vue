@@ -36,11 +36,10 @@ const autoSearch = lo.debounce(async (e: Event) => {
   }
 }, 500);
 
-
 onMounted(async () => {
   const db = await DBAPI.instance();
-  console.log('list', db.data);
-})
+  console.log('list', db.data)
+});
 </script>
 
 <template>

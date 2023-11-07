@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { app } from '~/app/model/app';
 import AppHeader from '~/widgets';
 </script>
 
@@ -11,7 +12,6 @@ import AppHeader from '~/widgets';
     
     <div class="flex flex-row w-full max-md:flex-col">
       <aside class="md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
-        <NuxtLoadingIndicator /> 
         <slot name="side"></slot>
       </aside>
       <main class="w-full px-4 rounded-md">

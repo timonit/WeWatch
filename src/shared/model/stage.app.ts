@@ -1,7 +1,7 @@
 import { BaseApp } from './base-app';
 
 export abstract class StageApp {
-  abstract status: string;
+  abstract name: string;
 
   app: BaseApp;
 

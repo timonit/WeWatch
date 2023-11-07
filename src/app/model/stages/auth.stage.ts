@@ -2,15 +2,10 @@ import { RestoreAuthFromLSFeature } from '~/features/auth';
 import { StageApp } from '~/shared/model';
 
 export class AuthStage extends StageApp {
-  status = 'authorization';
+  name = 'authorization';
 
-  async execute(): Promise<void> {
+  async execute() {
     const restoreFeature = new RestoreAuthFromLSFeature();
-    return new Promise(async (res) => {
-      await restoreFeature.execute();
-      setTimeout(() => {
-        res();
-      }, 3000)
-    })
+    await restoreFeature.execute();
   }
 }
