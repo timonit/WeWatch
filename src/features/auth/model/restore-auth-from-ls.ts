@@ -21,9 +21,10 @@ export class RestoreAuthFromLSFeature extends Feature<Promise<TokenData | undefi
 
       AuthAPI.setToken(tokens);
       AuthAPI.instance();
-
+      console.debug('token installed');
       return tokens;
     }
+    console.debug('token not installed');
 
     return undefined;
   }

@@ -12,26 +12,33 @@ export class DBAPI extends GoogleAPI {
   folderName = 'WeWatch';
   dbFileName = 'DBWeWatch11551122.json';
   descriptionFile = 'Data base file by WeWatch';
+  idFile?: string;
 
   data: DBData = {appName: "WeWatch"};
 
   async onInited() {
     try {
-      console.group('initing');
-      console.log('check db file...');
       let dbFile = await this.getDBFile();
       if (!dbFile) dbFile = await this.initDBFile();
 
-      console.log('loading db data');
       const data =  await gapi.client.drive.files.get(
         { fileId: dbFile.id, alt: 'media' }
       );
 
-      this.data = data;
-      console.groupEnd();
+      this.idFile = dbFile.id;
+      this.data = data.result;
     } catch(e) {
-      console.log('My error', e);
+      console.error('My error', e);
     }
+  }
+
+  async save() {
+    const dbfile = await gapi.client.request({
+      path: `https://www.googleapis.com/upload/drive/v3/files/${this.idFile}`,
+      method: 'PATCH',
+      body: this.data
+    });
+    console.log('dbfile', dbfile);
   }
 
   async getDBFile() {
@@ -48,7 +55,6 @@ export class DBAPI extends GoogleAPI {
   }
 
   async getOrCreateFolder() {
-    console.log('loading db folder');
     const res = await gapi.client.drive.files.list({
       q: `name='${this.folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
       fields: 'files(id, name, mimeType)'
@@ -56,7 +62,6 @@ export class DBAPI extends GoogleAPI {
 
     if (res.result.files.length) return res.result.files[0];
 
-    console.log('creating db folder');
     const folderWW = await gapi.client.request({
       path: 'https://www.googleapis.com/drive/v3/files',
       method: 'POST',
@@ -70,11 +75,8 @@ export class DBAPI extends GoogleAPI {
   }
 
   async initDBFile() {
-    console.group('initing db file');
-    console.log('initing db folder');
     const folderWW = await this.getOrCreateFolder();
 
-    console.log('creating db file');
     const DBFile = await gapi.client.request({
       path: 'https://www.googleapis.com/drive/v3/files',
       method: 'POST',
@@ -86,14 +88,12 @@ export class DBAPI extends GoogleAPI {
       }
     });
 
-    console.log('uploading init data to db file');
     const updatedDBFile = await gapi.client.request({
       path: `https://www.googleapis.com/upload/drive/v3/files/${DBFile.result.id}`,
       method: 'PATCH',
       body: '{"appName": "WeWatch"}'
     });
 
-    console.groupEnd();
     return updatedDBFile.result;
   }
 }

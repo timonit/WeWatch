@@ -28,6 +28,7 @@ export class App extends BaseApp {
     }
 
     this.status.value = 'inited';
+    console.log('app', this.status.value);
 
     this.isInited.value = true;
   }
