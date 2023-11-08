@@ -1,4 +1,4 @@
-import { GoogleAPI } from '~/shared/lib/google.api';
+import { GoogleAPI } from '~/shared/utils';
 import { UserInfo } from '../user-info';
 import { useAuthState } from './auth.state';
 

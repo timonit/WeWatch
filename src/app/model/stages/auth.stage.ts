@@ -1,8 +1,8 @@
-import { RestoreAuthFromLSFeature } from '~/features/auth/model/restore-auth-from-ls';
-import { StageApp } from '~/shared/model/stage.app';
+import { RestoreAuthFromLSFeature } from '~/features/auth';
+import { StageApp } from '~/shared/model';
 
 export class AuthStage extends StageApp {
-  status = 'authorization';
+  name = 'authorization';
 
   async execute() {
     const restoreFeature = new RestoreAuthFromLSFeature();

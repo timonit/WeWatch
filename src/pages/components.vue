@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import AppHeader from '@/widgets';
 import { Film, FilmCard } from '~/entities/film';
-import { SearchPanel } from '~/features';
-import { FormInput } from '~/shared';
-import BadgeWw from '~/shared/ui/badge-ww.vue';
-import AppText from '~/shared/ui/typography/app-text.vue';
+import { SearchPanel } from '~/features/film';
+import { FormInput, BadgeWW, AppText } from '~/shared/ui';
 
 const film: Film = {
   adult: false,
@@ -117,9 +115,9 @@ const film: Film = {
     <div>
       <h1 class="row">badge-ww</h1>
       <div class="w-full grid grid-cols-3 gap-2">
-        <badge-ww color="danger">Badge</badge-ww>
-        <badge-ww color="success">Badge</badge-ww>
-        <badge-ww color="warning">Badge</badge-ww>
+        <BadgeWW color="danger">Badge</BadgeWW>
+        <BadgeWW color="success">Badge</BadgeWW>
+        <BadgeWW color="warning">Badge</BadgeWW>
       </div>
     </div>
   </div>

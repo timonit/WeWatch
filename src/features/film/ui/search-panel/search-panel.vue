@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { AppText, FormInput } from '@/shared';
+import { AppText, FormInput, AppLoader } from '~/shared/ui';
 import ResultList from './result-list.vue';
-import { Film } from '@/entities/film';
-import { debounce } from 'lodash';
-import AppLoader from '~/shared/ui/loader/app-loader.vue';
-import { ref, useFetch } from '#imports';
+import { Film } from '~/entities/film';
+import lo from 'lodash';
+import { DBAPI } from '~/entities/film';
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);
@@ -16,7 +15,7 @@ const handler = async (film: Film) => {
   emit('selectFilm', film);
 }
 
-const autoSearch = debounce(async (e: Event) => {
+const autoSearch = lo.debounce(async (e: Event) => {
   if (searchText.value.trim()) {
     isLoading.value = true;
     
@@ -36,6 +35,11 @@ const autoSearch = debounce(async (e: Event) => {
     isLoading.value = false;
   }
 }, 500);
+
+onMounted(async () => {
+  const db = await DBAPI.instance();
+  console.log('list', db.data)
+});
 </script>
 
 <template>

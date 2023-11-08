@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import AppHeader from '~/widgets';
 import { app } from '~/app/model/app';
-
-onBeforeMount(async () => {
-  await app.init();
-})
+import AppHeader from '~/widgets';
 </script>
 
 <template>
@@ -14,8 +10,7 @@ onBeforeMount(async () => {
       <AppHeader />
     </header>
     
-    <div v-if="!app.isInited">loaded...</div>
-    <div v-else class="flex flex-row w-full max-md:flex-col">
+    <div class="flex flex-row w-full max-md:flex-col">
       <aside class="md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
         <slot name="side"></slot>
       </aside>

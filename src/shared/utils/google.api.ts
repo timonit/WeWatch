@@ -22,7 +22,7 @@ export abstract class GoogleAPI {
           this.loaded = true;
           resolve();
         } catch(e) {
-          console.log('Error in loadLib', e);
+          console.error('Error in loadLib: ', e);
           reject(e);
         }
       });
@@ -35,7 +35,7 @@ export abstract class GoogleAPI {
 
       await gapi.client.init({ scope, discoveryDocs });
     } catch(e) {
-      console.error('Error in initClientLib', e);
+      console.error('Error in initClientLib: ', e);
     }
   }
 
@@ -52,18 +52,14 @@ export abstract class GoogleAPI {
   }
 
   static async instance<T extends GoogleAPI>(this: {new (): T}): Promise<T> {
-    console.group('instance');
     const className = this.name;
-    console.log('founding instance...')
     let instance = GoogleAPI.instances[className] as T;
     if (instance) return instance;
 
-    console.log('create instance');
     // @ts-ignore
     instance = new this();
     await instance.init();
     GoogleAPI.instances[className] = instance;
-    console.groupEnd();
     return instance;
   }
 

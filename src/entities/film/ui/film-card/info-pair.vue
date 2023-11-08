@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppText from '~/shared/ui/typography/app-text.vue';
+import { AppText } from '~/shared/ui';
 
 const props = defineProps<{property: string; value: string | number}>();
 </script>

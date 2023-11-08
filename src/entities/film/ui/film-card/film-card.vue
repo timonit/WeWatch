@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import AppText from '@/shared/ui/typography/app-text.vue';
-import BadgeWw from '@/shared/ui/badge-ww.vue';
+import { AppText, BadgeWW, AppIcon, AppToolbar } from '@/shared/ui';
 import { Film } from '../../types';
 import InfoPair from './info-pair.vue';
+import { DBAPI } from '../../model';
+import { AddFilmFC, RemoveFilmFC } from '~/features/film';
 
 const props = defineProps<{film: Film}>();
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
+const db = await DBAPI.instance();
+
+const filmIsExist = computed(() => {
+  const film = db.data.list.find((film) => film.id === props.film.id);
+  return !!film;
+})
 </script>
 
 <template>
   <div class="flex flex-col">
     <div class="film-header flex justify-between items-start">
       <AppText variant="h1">{{ props.film.title }}</AppText>
+      <AppText v-show="filmIsExist" variant="h1">
+        <AppIcon class="icon" title="Добавлен в список" icon-name="circle-check" />
+      </AppText>
     </div>
 
     <div class="main-block flex my-2">
@@ -33,16 +43,28 @@ const EXPORT_URL = 'https://image.tmdb.org/t/p';
       </div>
       <div class="flex flex-col items-end gap-6">
         <div class="flex flex-wrap justify-end gap-2">
-          <badge-ww v-for="g of props.film.genres" color="danger" class="text-sm">{{ g.name }}</badge-ww>
+          <BadgeWW v-for="g of props.film.genres" color="danger" class="text-sm">{{ g.name }}</BadgeWW>
         </div>
-        <badge-ww color="danger" class="text-sm whitespace-nowrap">
+        <BadgeWW color="danger" class="text-sm whitespace-nowrap">
           {{ props.film.status }}
-        </badge-ww>
-        <badge-ww color="danger" title="Продолжительность" class="text-sm whitespace-nowrap">
+        </BadgeWW>
+        <BadgeWW color="danger" title="Продолжительность" class="text-sm whitespace-nowrap">
           <i class="mi-clock mr-1"></i>
           {{ props.film.runtime || 0 }} min
-        </badge-ww>
+        </BadgeWW>
       </div>
     </div>
+
+
+    <AppToolbar class="mt-4">
+      <AddFilmFC v-show="!filmIsExist" :film="props.film" />
+      <RemoveFilmFC v-show="filmIsExist" :film="props.film" />
+    </AppToolbar>
   </div>
 </template>
+
+<style scoped>
+.icon {
+  color: var(--brand-first);
+}
+</style>
