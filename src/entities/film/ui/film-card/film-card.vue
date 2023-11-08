@@ -1,16 +1,27 @@
 <script setup lang="ts">
-import { AppText, BadgeWW } from '@/shared/ui';
+import { AppText, BadgeWW, AppIcon, AppToolbar } from '@/shared/ui';
 import { Film } from '../../types';
 import InfoPair from './info-pair.vue';
+import { DBAPI } from '../../model';
+import { AddFilmFC, RemoveFilmFC } from '~/features/film';
 
 const props = defineProps<{film: Film}>();
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
+const db = await DBAPI.instance();
+
+const filmIsExist = computed(() => {
+  const film = db.data.list.find((film) => film.id === props.film.id);
+  return !!film;
+})
 </script>
 
 <template>
   <div class="flex flex-col">
     <div class="film-header flex justify-between items-start">
       <AppText variant="h1">{{ props.film.title }}</AppText>
+      <AppText v-show="filmIsExist" variant="h1">
+        <AppIcon class="icon" title="Добавлен в список" icon-name="circle-check" />
+      </AppText>
     </div>
 
     <div class="main-block flex my-2">
@@ -43,5 +54,17 @@ const EXPORT_URL = 'https://image.tmdb.org/t/p';
         </BadgeWW>
       </div>
     </div>
+
+
+    <AppToolbar class="mt-4">
+      <AddFilmFC v-show="!filmIsExist" :film="props.film" />
+      <RemoveFilmFC v-show="filmIsExist" :film="props.film" />
+    </AppToolbar>
   </div>
 </template>
+
+<style scoped>
+.icon {
+  color: var(--brand-first);
+}
+</style>

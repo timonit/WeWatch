@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppTool } from '~/shared/ui';
+import { AppTool, AppIcon } from '~/shared/ui';
 import { Film } from '~/entities/film';
 import { RemoveFilmFeature } from '../model';
 
@@ -12,5 +12,9 @@ const handler = () => {
 </script>
 
 <template>
-  <AppTool :tool="{name: 'Remove film', handler}" />
+  <AppTool :tool="{name: 'Remove film', handler}" >
+    <template #icon>
+      <AppIcon icon-name="circle-remove" />
+    </template>
+  </AppTool>
 </template>
