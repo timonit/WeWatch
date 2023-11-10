@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   // devtools: { enabled: true },
   srcDir: './src/',
+  pages: true,
   experimental: {
     componentIslands: true,
   },

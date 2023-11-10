@@ -6,6 +6,7 @@ import AppLoader from './app-loader.vue';
 import AppLogo from './app-logo.vue';
 import BadgeWW from './badge-ww.vue'
 import AppIcon from './app-icon.vue';
+import AppSelectList from './app-select-list.vue';
 
 export {
   AppText,
@@ -13,4 +14,5 @@ export {
   AppLogo,
   BadgeWW,
   AppIcon,
+  AppSelectList,
 }
