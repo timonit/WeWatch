@@ -13,11 +13,13 @@ let db: DBAPI;
 
 onBeforeMount(async () => {
   db = await DBAPI.instance();
+  updateExist();
 });
 
-const filmIsExist = () => {
+const filmIsExist = ref(false);
+const updateExist = () => {
   const filmExist = db.data.list.find((itemFilm) => itemFilm.id === props.filmID);
-  return !!filmExist;
+  filmIsExist.value = !!filmExist;
 }
 
 const fetchFilm = async () => {
@@ -30,6 +32,7 @@ watch(props, async () => {
   isFetching.value = true;
   await fetchFilm();
   isFetching.value = false;
+  updateExist();
 });
 </script>
 

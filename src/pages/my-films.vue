@@ -13,10 +13,7 @@ const selectFilm = async (id: Film['id']) => {
   currentFilm.value = res.data.value as Film;
 }
 
-if (route.query.id) {
-  console.log('mounted', route.query);
-  selectFilm(Number(route.query.id));
-}
+if (route.query.id) selectFilm(Number(route.query.id));
 </script>
 
 <template>

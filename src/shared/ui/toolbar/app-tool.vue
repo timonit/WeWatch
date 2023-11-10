@@ -7,9 +7,9 @@ const props = defineProps<{tool: ITool}>();
 <template>
   <div
     @click="props.tool.handler"
-    class="py-1 px-3 border-b-[1px] border-transparent cursor-pointer rounded-lg tool-container divide-x-8 divide-transparent"
+    class="py-1 px-3 border-b-[1px] border-transparent cursor-pointer rounded-lg tool-container divide-x-8 divide-transparent flex items-center"
   >
-    <slot name="icon" class="mr-2"></slot>
+    <slot name="icon"></slot>
     <AppText variant="simple">
       {{ props.tool.name }}
     </AppText>
