@@ -38,7 +38,7 @@ watch(props, async () => {
 
 <template>
   <div v-if="isFetching" class="flex justify-center items-center">
-    <AppLoader />
+    <AppLoader size="md" />
   </div>
   <div v-if="film && !isFetching" class="flex flex-col">
     <div class="film-header flex justify-between items-start">

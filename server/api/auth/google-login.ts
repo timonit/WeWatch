@@ -6,8 +6,8 @@ export default defineEventHandler(async (event: H3Event<EventHandlerRequest>) =>
   const {
     GOOGLE_CLIENT_ID: clientId,
     GOOGLE_CLIENT_SECRET: clientSecret,
+    GOOGE_AUTH_REDIRECT_URI: redirectUri,
   } = process.env;
-  const redirectUri='http://localhost:5173/google-auth';
 
   const auth = new google.auth.OAuth2({
     clientId,

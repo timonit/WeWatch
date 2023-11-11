@@ -28,7 +28,7 @@ if (app.status.value !== 'inited') {
 
 <template>
   <div v-if="isFetching" class="flex justify-center">
-    <AppLoader />
+    <AppLoader size="md" />
   </div>
   <AppSelectList :list="list" v-else>
     <template #item="item">

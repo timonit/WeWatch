@@ -13,7 +13,7 @@ onBeforeMount(async () => {
 
 <template>
    <div v-if="!isInited" class="fixed w-screen h-screen flex justify-center items-center">
-    <AppLoader />
+    <AppLoader size="lg" />
   </div>
   <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 relative h-screen'>
     
@@ -30,7 +30,7 @@ onBeforeMount(async () => {
       </main>
     </div>
 
-    <footer class="absolute mx-auto inset-x-0 bottom-0 flex justify-center gap-6 items-center py-2 text-[0.9rem]">
+    <footer class="fixed mx-auto inset-x-0 bottom-0 flex justify-center gap-6 items-center py-2 text-[0.9rem]">
       <AppText variant="bold">by timonit</AppText>
       <a href="https://github.com/timonit/watchkino" target="_blank">
         <img src="@/shared/assets/github-logo.svg" class="h-7 w-auto" />
