@@ -29,7 +29,6 @@ onBeforeMount(async () => {
   }
     
   // переходим и запрещаем переходить назад на авторизационную страницу
-  history.replaceState({current: '/'}, '', 'http://localhost:5173');
   navigateTo('/');
 })
 </script>
