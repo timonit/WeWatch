@@ -32,7 +32,7 @@ export abstract class GoogleAPI {
   static async initClientLib(scope: string, discoveryDocs: string[]) {
     try {
       if (!GoogleAPI.token) throw 'Token is not installed';
-
+      
       await gapi.client.init({ scope, discoveryDocs });
     } catch(e) {
       console.error('Error in initClientLib: ', e);

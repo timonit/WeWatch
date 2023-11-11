@@ -38,7 +38,6 @@ const autoSearch = lo.debounce(async (e: Event) => {
 
 onMounted(async () => {
   const db = await DBAPI.instance();
-  console.log('list', db.data)
 });
 </script>
 
@@ -50,7 +49,7 @@ onMounted(async () => {
         <AppText variant="simple" class="text-gray-500">Введите название фильма</AppText>
       </div>
       <div v-if="isLoading" class="w-full flex justify-center">
-        <AppLoader />
+        <AppLoader size="md" />
       </div>
       <ResultList v-else :list="results" @selected="handler" />
     </div>

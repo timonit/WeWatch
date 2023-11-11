@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { app } from '~/app/model/app';
 import { AuthAPI } from '~/entities/auth';
 import { saveTokenToLS, TokenData } from '~/shared/utils';
 
@@ -15,18 +14,20 @@ onServerPrefetch(async () => {
       server: true,
     }
   );
-
+  
   tokenState.value = tokens.data as unknown as TokenData;
-});
+})
 
-app.addEventListener('stageFinished', async (event) => {
-  if (tokenState.value && event.stageName === 'loading') {
+onBeforeMount(async () => {
+  if (tokenState.value) {
+    await AuthAPI.loadLib();
     saveTokenToLS(tokenState.value);
-    AuthAPI.setToken(tokenState.value?.access_token as string);
-    AuthAPI.instance();
+    AuthAPI.setToken(tokenState.value);
     appInited.value = true;
+  
+    await AuthAPI.instance();
   }
-
+    
   // переходим и запрещаем переходить назад на авторизационную страницу
   history.replaceState({current: '/'}, '', 'http://localhost:5173');
   navigateTo('/');

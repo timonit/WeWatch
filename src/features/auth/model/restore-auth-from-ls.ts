@@ -16,7 +16,7 @@ export class RestoreAuthFromLSFeature extends Feature<Promise<TokenData | undefi
           { method: 'POST', body: tokens }
         );
         tokens = res.data.value as TokenData;
-        console.log('token refreshed');
+        console.debug('token refreshed');
         saveTokenToLS(tokens);
       }
 
