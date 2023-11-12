@@ -12,7 +12,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-   <div v-if="!isInited" class="fixed w-screen h-screen flex justify-center items-center">
+   <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
     <AppLoader size="lg" />
   </div>
   <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 relative h-screen'>
