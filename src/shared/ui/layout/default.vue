@@ -28,7 +28,7 @@ onBeforeMount(async () => {
         <template #rightSide>
           <button
             type="button"
-            class="relative ml-4 rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+            class="md:hidden relative ml-4 rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
             @click="controlerSide.open"
           >
             <Bars3Icon class="h-5 w-5" aria-hidden="true" />
