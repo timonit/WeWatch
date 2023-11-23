@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@floating-ui/vue": "^1.0.2",
+    "@headlessui/vue": "^1.7.16",
+    "@heroicons/vue": "^2.0.18",
     "@types/gapi": "^0.0.46",
     "@types/lodash": "^4.14.199",
     "googleapis": "^128.0.0",

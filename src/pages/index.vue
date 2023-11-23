@@ -2,8 +2,10 @@
 import { Film, FilmCard } from '~/entities/film';
 import { SearchPanel } from '~/features/film';
 import { AppText } from '~/shared/ui';
+import { useControlSide } from '~/shared/ui/layout/useControlSide';
 
 const route = useRoute();
+const { close } = useControlSide();
 const currentFilm = ref<Film | null>(null);
 
 const selectFilm = async (id: Film['id']) => {
@@ -17,7 +19,7 @@ if (route.query.id) selectFilm(Number(route.query.id));
 <template>
   <NuxtLayout>
     <template #side>
-      <SearchPanel />
+      <SearchPanel @selectFilm="close()" />
     </template>
 
     <div v-if="!$route.query.id" class="w-full text-center pt-4">

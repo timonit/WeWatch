@@ -13,7 +13,7 @@ export class AuthAPI extends GoogleAPI {
       const userInfo = await this.getUserInfo();
       this.authState.value = {
         userInfo,
-        authorazed: true,
+        authorized: true,
       };
     }
   }

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Film, FilmCard } from '~/entities/film';
 import { AppText } from '~/shared/ui';
+import { useControlSide } from '~/shared/ui/layout/useControlSide';
 import { FilmList } from '~/widgets';
 
 const route = useRoute();
+const { close } = useControlSide();
 const currentFilm = ref<Film | null>(null);
 const selectedID = ref();
 
@@ -19,7 +21,7 @@ if (route.query.id) selectFilm(Number(route.query.id));
 <template>
   <NuxtLayout>
     <template #side>
-      <FilmList />
+      <FilmList @selectFilm="close()" />
     </template>
 
     <div v-if="!$route.query.id" class="w-full text-center pt-4">

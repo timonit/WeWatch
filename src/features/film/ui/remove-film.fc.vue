@@ -2,6 +2,7 @@
 import { AppTool, AppIcon, AppLoader } from '~/shared/ui';
 import { Film } from '~/entities/film';
 import { RemoveFilmFeature } from '../model';
+import { useAuthState } from '~/entities/auth';
 
 const props = defineProps<{film: Film}>();
 const isLoading = ref(false);
@@ -12,10 +13,11 @@ const handler = async () => {
   await featureAdd.execute(props.film.id);
   isLoading.value = false;
 }
+const auth = useAuthState();
 </script>
 
 <template>
-  <AppTool :tool="{name: 'Remove film', handler}" >
+  <AppTool v-if="auth.authorized" :tool="{name: 'Remove film', handler}" >
     <template #icon>
       <AppLoader v-if="isLoading" />
       <AppIcon v-else icon-name="circle-remove" />
