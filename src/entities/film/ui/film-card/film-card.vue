@@ -2,14 +2,29 @@
 import { AppText, BadgeWW, AppIcon, AppToolbar, AppLoader } from '@/shared/ui';
 import { Film } from '../../types';
 import InfoPair from './info-pair.vue';
+import FilmTrailer from './film-trailer.vue';
 import { DBAPI } from '../../model';
 import { AddFilmFC, RemoveFilmFC } from '~/features/film';
-import {  } from '@headlessui/vue';
 
 const props = defineProps<{filmID: Film['id']}>();
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
 const isFetching = ref(false);
 const film = ref<Film | null>(null);
+
+type VideoDTO = {
+  iso_639_1: string,
+  iso_3166_1: string,
+  name: string,
+  key: string,
+  site: 'YouTube',
+  size: number,
+  type: 'Trailer',
+  official: boolean,
+  published_at: string,
+  id: string
+}
+
+const trailers = ref<{results: VideoDTO[]} | null>();
 let db: DBAPI;
 
 onBeforeMount(async () => {
@@ -26,6 +41,10 @@ const updateExist = () => {
 const fetchFilm = async () => {
   const res = await useFetch<Film>(`/api/film/${props.filmID}`);
   film.value = res.data.value;
+
+  const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/film/${props.filmID}/video`);
+  trailers.value = resTrailers.data.value;
+  console.log('trailers', resTrailers.data.value);
 };
 fetchFilm();
 
@@ -48,6 +67,11 @@ watch(props, async () => {
         <AppIcon class="icon" title="Добавлен в список" icon-name="circle-check" />
       </AppText>
     </div>
+
+    <AppToolbar class="mt-4">
+      <AddFilmFC v-show="!filmIsExist" :film="film" />
+      <RemoveFilmFC v-show="filmIsExist" :film="film" />
+    </AppToolbar>
 
     <div class="main-block flex my-2 max-md:flex-wrap">
       <img :src="`${EXPORT_URL}/w200${film.poster_path}`" width="200" height="200" class="object-cover rounded-lg max-md:w-full" />
@@ -80,11 +104,10 @@ watch(props, async () => {
       </div>
     </div>
 
-
-    <AppToolbar class="mt-4">
-      <AddFilmFC v-show="!filmIsExist" :film="film" />
-      <RemoveFilmFC v-show="filmIsExist" :film="film" />
-    </AppToolbar>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-wrap">
+      <AppText v-if="!trailers?.results.length" variant="simple" class="mt-6">Трейлеры не найдены</AppText>
+      <FilmTrailer v-for="trailer in trailers?.results" :id="trailer.key" />
+    </div>
   </div>
 </template>
 
