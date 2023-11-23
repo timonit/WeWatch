@@ -36,6 +36,7 @@ if (app.status.value !== 'inited') {
         :to="{ path: '/my-films', query: {id: item.id} }"
         class="item text-[0.8rem] px-3 py-2 mr-2 rounded-lg flex"
         :class="{active: Number($route.query.id) === Number(item.id)}"
+        @click="$emit('selectFilm', item)"
       >
         <AppText variant="simple">{{ item.title }}</AppText>
       </NuxtLink>

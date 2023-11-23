@@ -7,6 +7,7 @@ import AppLogo from './app-logo.vue';
 import BadgeWW from './badge-ww.vue'
 import AppIcon from './app-icon.vue';
 import AppSelectList from './app-select-list.vue';
+import AppSlideOver from './app-slide-over.vue';
 
 export {
   AppText,
@@ -15,4 +16,5 @@ export {
   BadgeWW,
   AppIcon,
   AppSelectList,
+  AppSlideOver,
 }

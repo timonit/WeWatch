@@ -2,6 +2,7 @@
 import { AppLogo, AppText } from '~/shared/ui';
 import { GoogleLoginFC, LogoutFC } from '~/features/auth';
 import { useAuthState } from '~/entities/auth';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 
 const authState = useAuthState();
 </script>
@@ -19,13 +20,24 @@ const authState = useAuthState();
         <AppText variant="simple">My films</AppText>
       </NuxtLink>
     </div>
-    <div class="max-w-1/2 text-right">
-      <GoogleLoginFC v-if="!authState.authorazed" />
-      <div v-if="authState.authorazed" class="flex justify-end items-center gap-2" >
-        <span>{{ authState.userInfo.given_name }}</span>
-        <img class="h-6" :src="authState.userInfo.picture" />
-        <LogoutFC />
-      </div>
+    <div class="max-w-1/2 flex justify-end text-right">
+      <GoogleLoginFC v-if="!authState.authorized" />
+      <Menu as="div" v-if="authState.authorized" class="flex justify-end items-center gap-2" >
+        <MenuButton>
+          <img class="h-6" :src="authState.userInfo.picture" />
+        </MenuButton>
+        <Transition>
+          <MenuItems class="flex flex-col absolute p-3 origin-top-right translate-y-full divide-y rounded-md bg-white shadow-lg text-stone-950">
+            <MenuItem>
+              <span>{{ authState.userInfo.given_name }}</span>
+            </MenuItem>
+            <MenuItem>
+              <LogoutFC />
+            </MenuItem>
+          </MenuItems>
+        </Transition>
+      </Menu>
+      <slot name="rightSide"></slot>
     </div>
   </div>
 </template>

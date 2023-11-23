@@ -11,6 +11,7 @@ const emit = defineEmits<{
 const selected = ref<Film | undefined>();
 const select = (item: Film) => selected.value = item;
 const go = (item: Film) => {
+  emit('selected', item);
   router.push({ path: '/', query: { id: item.id } });
 }
 
