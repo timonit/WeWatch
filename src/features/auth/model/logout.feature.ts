@@ -7,6 +7,6 @@ export class LogoutFeature extends Feature<void> {
     localStorage.removeItem(STORAGE_KEY);
     AuthAPI.clearToken();
     const authState = useAuthState();
-    authState.value = {authorazed: false};
+    authState.value = {authorized: false};
   }
 }

@@ -1,10 +1,10 @@
 import { UserInfo } from '../user-info';
 
 type AuthState = {
-  authorazed: true,
+  authorized: true,
   userInfo: UserInfo,
-} | {authorazed: false};
+} | {authorized: false};
 
 export const useAuthState = () => useState<AuthState>('authState', () => {
-  return {authorazed: false};
+  return {authorized: false};
 })
