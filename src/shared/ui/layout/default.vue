@@ -8,20 +8,23 @@ import { useControlSide } from './useControlSide';
 import { useNotify } from '../notify';
 
 const controlerSide = useControlSide();
-const isOpened = toRef(controlerSide.isOpened);
+const { notify } = useNotify();
 
+const isOpened = toRef(controlerSide.isOpened);
 const isInited = toRef(app.isInited);
 const isOpen = ref(false);
+
 onBeforeMount(async () => {
   if (app.status.value !== 'inited') await app.init();
   if (innerWidth && innerWidth < 768) isOpen.value = true;
+  
+  if (!localStorage.getItem('warn')) {
+    notify(`На сайте не нужно регистрироваться, вход на сайт происходит с помощью google аккаунта.
+      При входе приложение просит доступ в google диск, там приложение будет хранить ваши фильмы.
+      Если вы хотите очистить все данные, вы можете зайти на свой диск, найти папку WeWatch и удалить все содержимое`);
+    localStorage.setItem('warn', 'true');
+  }
 });
-
-const { notify } = useNotify();
-
-notify(`На сайте не нужно регистрироваться, вход на сайт происходит с помощью google аккаунта.
-При входе приложение просит доступ в google диск, там приложение будет хранить ваши фильмы.
-Если вы хотите очистить все данные, вы можете зайти на свой диск, найти папку WeWatch и удалить все содержимое`);
 </script>
 
 <template>
