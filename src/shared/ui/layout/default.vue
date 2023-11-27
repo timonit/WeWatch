@@ -5,15 +5,25 @@ import { AppLoader } from '~/shared/ui';
 import { app } from '~/app/model/app';
 import { Bars3Icon } from '@heroicons/vue/24/solid';
 import { useControlSide } from './useControlSide';
+import { useNotify } from '../notify';
 
 const controlerSide = useControlSide();
-const isOpened = toRef(controlerSide.isOpened);
+const { notify } = useNotify();
 
+const isOpened = toRef(controlerSide.isOpened);
 const isInited = toRef(app.isInited);
 const isOpen = ref(false);
+
 onBeforeMount(async () => {
   if (app.status.value !== 'inited') await app.init();
   if (innerWidth && innerWidth < 768) isOpen.value = true;
+  
+  if (!localStorage.getItem('warn')) {
+    notify(`На сайте не нужно регистрироваться, вход на сайт происходит с помощью google аккаунта.
+      При входе приложение просит доступ в google диск, там приложение будет хранить ваши фильмы.
+      Если вы хотите очистить все данные, вы можете зайти на свой диск, найти папку WeWatch и удалить все содержимое`);
+    localStorage.setItem('warn', 'true');
+  }
 });
 </script>
 
@@ -37,25 +47,31 @@ onBeforeMount(async () => {
       </AppHeader>
     </header>
     
-    <div class="flex flex-row w-full max-md:flex-col">
-      <aside class="md:hidden">
-        <AppSlideOver :open="isOpened" @update:open="(isOpen: boolean) => {isOpen ? controlerSide.open() : controlerSide.close()}">
+    <div class="flex flex-row w-full max-md:flex-col md:pb-16">
+      <template v-if="$slots.side">
+        <aside class="md:hidden">
+          <AppSlideOver :open="isOpened" @update:open="(isOpen: boolean) => {isOpen ? controlerSide.open() : controlerSide.close()}">
+            <slot name="side"></slot>
+          </AppSlideOver>
+        </aside>
+        <aside class="max-md:hidden md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
           <slot name="side"></slot>
-        </AppSlideOver>
-      </aside>
-      <aside class="max-md:hidden md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
-        <slot name="side"></slot>
-      </aside>
+        </aside>
+      </template>
       <main class="w-full px-4 rounded-md">
         <slot></slot>
       </main>
     </div>
 
-    <footer class="sm:relative md:fixed mx-auto inset-x-0 bottom-0 flex justify-center gap-6 items-center py-2 text-[0.9rem]">
+    <footer class="sm:relative md:fixed mx-auto inset-x-0 bottom-0 flex flex-wrap justify-center gap-6 items-center py-2 text-[0.9rem]">
       <AppText variant="bold">by timonit</AppText>
       <a href="https://github.com/timonit/watchkino" target="_blank">
         <img src="@/shared/assets/github-logo.svg" class="h-7 w-auto" />
       </a>
+      <AppText variant="bold">timondevts@gmail.com</AppText>
+      <NuxtLink to="/rights" class="text-blue-200">
+        <AppText variant="bold">жалобы/предложения</AppText>
+      </NuxtLink>
     </footer>
   </div>
 </template>

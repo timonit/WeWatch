@@ -5,11 +5,13 @@ import InfoPair from './info-pair.vue';
 import FilmTrailer from './film-trailer.vue';
 import { DBAPI } from '../../model';
 import { AddFilmFC, RemoveFilmFC } from '~/features/film';
+import { onBeforeMount } from 'vue';
 
 const props = defineProps<{filmID: Film['id']}>();
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
 const isFetching = ref(false);
 const film = ref<Film | null>(null);
+let db: DBAPI;
 
 type VideoDTO = {
   iso_639_1: string,
@@ -23,9 +25,18 @@ type VideoDTO = {
   published_at: string,
   id: string
 }
-
 const trailers = ref<{results: VideoDTO[]} | null>();
-let db: DBAPI;
+
+type PlayerDTO = {
+  source:	[ 'Alloha', 'Ashdi', 'Bazon', 'Cdnmovies', 'Collaps', 'Hdvb', 'Iframe', 'Kodik', 'Videocdn', 'Voidboost' ];
+  translation: string | null;
+  quality:	string | null;
+  iframeUrl: string;
+  updatedAt:	string;
+}
+
+const players = ref<{list: PlayerDTO[], isFetching: boolean}>({list: [], isFetching: true});
+
 
 onBeforeMount(async () => {
   db = await DBAPI.instance();
@@ -44,9 +55,19 @@ const fetchFilm = async () => {
 
   const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/film/${props.filmID}/video`);
   trailers.value = resTrailers.data.value;
-  console.log('trailers', resTrailers.data.value);
 };
 fetchFilm();
+
+watch(film, async () => {
+  if (film.value) {
+    players.value.isFetching = true;
+    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players/main?imdb=${film.value.imdb_id}`);
+    players.value = {
+      list: videos.data.value ?? [],
+      isFetching: false,
+    };
+  }
+})
 
 watch(props, async () => {
   isFetching.value = true;
@@ -104,9 +125,27 @@ watch(props, async () => {
       </div>
     </div>
 
+    <AppText variant="h6" class="mt-6">Трейлеры</AppText>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-wrap">
       <AppText v-if="!trailers?.results.length" variant="simple" class="mt-6">Трейлеры не найдены</AppText>
       <FilmTrailer v-for="trailer in trailers?.results" :id="trailer.key" />
+    </div>
+    
+    <AppText variant="h6" class="mt-6">Видео</AppText>
+    <div class="grid grid-cols-1 gap-4 flex-wrap">
+      <AppText v-if="!players.list.length && !players.isFetching" variant="simple" class="mt-6">Видео не найдены</AppText>
+      <AppLoader v-if="players.isFetching" size="md" />
+      <iframe
+        v-if="players.list.length"
+        v-for="player in players.list"
+        :src="player.iframeUrl"
+        width="720"
+        height="450"
+        frameborder="0"
+        scrolling="no"
+        allowfullscreen
+        class="w-full h-auto aspect-video"
+      ></iframe>
     </div>
   </div>
 </template>
