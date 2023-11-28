@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Film, FilmCard } from '~/entities/film';
 import { SearchPanel } from '~/features/film';
-import { AppText } from '~/shared/ui';
+import { AppText, AppIcon } from '~/shared/ui';
 import { useControlSide } from '~/shared/ui/layout/useControlSide';
 
 const route = useRoute();
@@ -17,7 +17,10 @@ if (route.query.id) selectFilm(Number(route.query.id));
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout :headerSideTriggerShow="true">
+    <template #sideTriggerTitle>
+      <AppIcon icon-name="search" />
+    </template>
     <template #side>
       <SearchPanel @selectFilm="close()" />
     </template>

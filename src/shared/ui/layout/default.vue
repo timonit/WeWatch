@@ -7,6 +7,7 @@ import { Bars3Icon } from '@heroicons/vue/24/solid';
 import { useControlSide } from './useControlSide';
 import { useNotify } from '../notify';
 
+const props = defineProps<{headerSideTriggerShow?: boolean}>()
 const controlerSide = useControlSide();
 const { notify } = useNotify();
 
@@ -35,13 +36,15 @@ onBeforeMount(async () => {
     
     <header>
       <AppHeader>
-        <template #rightSide>
+        <template #rightSide v-if="props.headerSideTriggerShow">
           <button
             type="button"
             class="md:hidden relative ml-4 rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
             @click="controlerSide.open"
           >
-            <Bars3Icon class="h-5 w-5" aria-hidden="true" />
+            <slot name="sideTriggerTitle">
+              <Bars3Icon class="h-5 w-5" aria-hidden="true" />
+            </slot>
           </button>
         </template>
       </AppHeader>
