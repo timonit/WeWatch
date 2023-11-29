@@ -17,7 +17,7 @@ const authState = useAuthState();
         <AppText variant="simple">Поиск</AppText>
       </NuxtLink>
       <NuxtLink v-if="authState.authorized" to="/my-films" activeClass="active-link">
-        <AppText variant="simple">Мои фильмы</AppText>
+        <AppText variant="simple">Список</AppText>
       </NuxtLink>
     </div>
     <div class="max-w-1/2 flex justify-end text-right">

@@ -36,7 +36,7 @@ onBeforeMount(async () => {
     
     <header>
       <AppHeader>
-        <template #rightSide v-if="props.headerSideTriggerShow">
+        <template #rightSide v-if="props.headerSideTriggerShow && $slots.side">
           <button
             type="button"
             class="md:hidden relative ml-4 rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
@@ -57,7 +57,7 @@ onBeforeMount(async () => {
             <slot name="side"></slot>
           </AppSlideOver>
         </aside>
-        <aside class="max-md:hidden md:w-[280px] max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
+        <aside class="max-md:hidden md:w-[280px] h-fit max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
           <slot name="side"></slot>
         </aside>
       </template>
@@ -79,7 +79,7 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 aside {
   background-color: var(--bg-secondary);
   box-shadow: 0 5px 5px -3px rgba($color: #000000, $alpha: 0.5);

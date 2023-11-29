@@ -4,6 +4,7 @@ import ResultList from './result-list.vue';
 import { Film } from '~/entities/film';
 import lo from 'lodash';
 import { DBAPI } from '~/entities/film';
+import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue'; 
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);
@@ -42,22 +43,36 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="h-full">
+  <div>
     <FormInput v-model="searchText" @input="autoSearch" placeholder="search" />
-    <div class="result mt-4">
-      <div v-if="!isLoading && !searchText" class="w-full flex justify-center">
-        <AppText variant="simple" class="text-gray-500">Введите название фильма</AppText>
-      </div>
-      <div v-if="isLoading" class="w-full flex justify-center">
-        <AppLoader size="md" />
-      </div>
-      <ResultList v-else :list="results" @selected="handler" />
-    </div>
+
+    <Disclosure v-slot="{ open }" :default-open="true">
+      <DisclosurePanel class="max-h-[60vh] overflow-auto" static v-show="open">
+        <div class="result mt-4">
+          <div v-if="!isLoading && !searchText" class="w-full flex justify-center">
+            <AppText variant="simple" class="text-gray-500">Введите название фильма</AppText>
+          </div>
+          <div v-if="isLoading" class="w-full flex justify-center">
+            <AppLoader size="md" />
+          </div>
+          <ResultList v-else :list="results" @selected="handler" />
+        </div>
+      </DisclosurePanel>
+      <DisclosureButton class="dis-trigger text-center w-full my-4" v-if="open">свернуть</DisclosureButton>
+      <DisclosureButton class="dis-trigger text-center w-full my-4" v-if="!open">развернуть</DisclosureButton>
+    </Disclosure>
+
+
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .result {
   height: calc(100% - 1rem - 1em - 2rem);
+}
+.dis-trigger {
+  background-color: var(--bg-secondary);
+  box-shadow: 0 5px 5px -3px rgba($color: #000000, $alpha: 0.5);
+  border-color: var(--border-color-secondary);
 }
 </style>

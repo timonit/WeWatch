@@ -33,7 +33,7 @@ const tooltip = ref();
       </li>
     </template>
   </AppSelectList>
-  <div class="invisible bg-gray-600 rounded-lg px-3 py-2 absolute w-max" ref="tooltip">
+  <div class="invisible bg-gray-600 rounded-lg px-3 py-2 absolute w-max max-md:hidden" ref="tooltip">
     <div v-if="selected" class="flex flex-col">
       <span>{{ selected.title }}</span>
       <p class="mt-2 text-[0.8em] whitespace-break-spaces indent-2 text-ellipsis w-60 max-h-60 overflow-clip">{{ selected.overview }}</p>
