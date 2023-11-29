@@ -135,17 +135,21 @@ watch(props, async () => {
     <div class="grid grid-cols-1 gap-4 flex-wrap">
       <AppText v-if="!players.list.length && !players.isFetching" variant="simple" class="mt-6">Видео не найдены</AppText>
       <AppLoader v-if="players.isFetching" size="md" />
-      <iframe
-        v-if="players.list.length"
-        v-for="player in players.list"
-        :src="player.iframeUrl"
-        width="720"
-        height="450"
-        frameborder="0"
-        scrolling="no"
-        allowfullscreen
-        class="w-full h-auto aspect-video"
-      ></iframe>
+
+      <template v-if="players.list.length">
+        <iframe
+          v-for="player in players.list"
+          :src="player.iframeUrl"
+          width="720"
+          height="450"
+          frameborder="0"
+          scrolling="no"
+          allowfullscreen
+          class="w-full h-auto aspect-video"
+          loading=""
+        ></iframe>
+      </template>
+
     </div>
   </div>
 </template>

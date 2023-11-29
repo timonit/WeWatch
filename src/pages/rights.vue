@@ -20,10 +20,6 @@ import { AppText } from '~/shared/ui';
 </template>
 
 <style scoped>
-* {
-  text-indent: 1.5em;
-}
-
 p {
   font-size: medium;
   margin-top: 1.5em;
