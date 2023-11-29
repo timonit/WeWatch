@@ -19,7 +19,7 @@ if (route.query.id) selectFilm(Number(route.query.id));
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout :headerSideTriggerShow="true">
     <template #side>
       <FilmList @selectFilm="close()" />
     </template>

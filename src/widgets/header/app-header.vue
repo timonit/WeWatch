@@ -14,10 +14,10 @@ const authState = useAuthState();
     </div>
     <div class="flex flex-row gap-6">
       <NuxtLink to="/" activeClass="active-link">
-        <AppText variant="simple">Search</AppText>
+        <AppText variant="simple">Поиск</AppText>
       </NuxtLink>
       <NuxtLink v-if="authState.authorized" to="/my-films" activeClass="active-link">
-        <AppText variant="simple">My films</AppText>
+        <AppText variant="simple">Список</AppText>
       </NuxtLink>
     </div>
     <div class="max-w-1/2 flex justify-end text-right">
