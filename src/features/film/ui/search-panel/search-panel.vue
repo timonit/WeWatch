@@ -58,10 +58,9 @@ onMounted(async () => {
           <ResultList v-else :list="results" @selected="handler" />
         </div>
       </DisclosurePanel>
-      <DisclosureButton class="dis-trigger text-center w-full my-4" v-if="open">свернуть</DisclosureButton>
-      <DisclosureButton class="dis-trigger text-center w-full my-4" v-if="!open">развернуть</DisclosureButton>
+      <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="open">свернуть</DisclosureButton>
+      <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="!open">развернуть</DisclosureButton>
     </Disclosure>
-
 
   </div>
 </template>
@@ -72,7 +71,6 @@ onMounted(async () => {
 }
 .dis-trigger {
   background-color: var(--bg-secondary);
-  box-shadow: 0 5px 5px -3px rgba($color: #000000, $alpha: 0.5);
   border-color: var(--border-color-secondary);
 }
 </style>

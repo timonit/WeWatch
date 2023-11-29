@@ -32,7 +32,7 @@ onBeforeMount(async () => {
    <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
     <AppLoader size="lg" />
   </div>
-  <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 relative h-screen'>
+  <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 min-h-screen'>
     
     <header>
       <AppHeader>
@@ -50,7 +50,7 @@ onBeforeMount(async () => {
       </AppHeader>
     </header>
     
-    <div class="flex flex-row w-full max-md:flex-col md:pb-16">
+    <div class="flex flex-row w-full max-md:flex-col min-h-[80vh] h-full">
       <template v-if="$slots.side">
         <aside class="md:hidden">
           <AppSlideOver :open="isOpened" @update:open="(isOpen: boolean) => {isOpen ? controlerSide.open() : controlerSide.close()}">
@@ -61,17 +61,17 @@ onBeforeMount(async () => {
           <slot name="side"></slot>
         </aside>
       </template>
+      
       <main class="w-full px-4 rounded-md">
         <slot></slot>
       </main>
+      
     </div>
 
-    <footer class="sm:relative md:fixed mx-auto inset-x-0 bottom-0 flex flex-wrap justify-center gap-6 items-center py-2 text-[0.9rem]">
-      <AppText variant="bold">by timonit</AppText>
-      <a href="https://github.com/timonit/watchkino" target="_blank">
-        <img src="@/shared/assets/github-logo.svg" class="h-7 w-auto" />
-      </a>
-      <AppText variant="bold">timondevts@gmail.com</AppText>
+    <footer class="flex flex-col flex-wrap justify-center gap-2 items-center py-2 text-[0.9rem]">
+        <a href="https://github.com/timonit/watchkino" target="_blank">
+          <img src="@/shared/assets/github-logo.svg" class="h-7 w-auto" />
+        </a>
       <NuxtLink to="/rights" class="text-blue-200">
         <AppText variant="bold">жалобы/предложения</AppText>
       </NuxtLink>
