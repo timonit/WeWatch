@@ -14,13 +14,13 @@ const props = withDefaults(
     :class="[
       'button-app',
       `bg-${props.color}`,
-      'px-1',
+      'px-3',
       'py-2',
       'rounded-lg',
       'w-full',
       'relative',
       'text-zinc-800',
-      'font-bold'
+      'font-bold',
     ]">
     <slot ></slot>
   </button>
