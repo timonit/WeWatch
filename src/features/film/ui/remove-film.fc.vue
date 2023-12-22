@@ -6,14 +6,16 @@ import { useAuthState } from '~/entities/auth';
 
 const props = defineProps<{film: Film}>();
 const isLoading = ref(false);
+const auth = useAuthState();
+const emit = defineEmits(['executed']);
 
 const featureAdd = new RemoveFilmFeature
 const handler = async () => {
   isLoading.value = true;
   await featureAdd.execute(props.film.id);
   isLoading.value = false;
+  emit('executed');
 }
-const auth = useAuthState();
 </script>
 
 <template>
