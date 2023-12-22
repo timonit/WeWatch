@@ -2,15 +2,18 @@
 const props = withDefaults(
   defineProps<{
     color?: string
+    type?: 'submit' | 'reset' | 'button'
   }>(),
   {
-    color: 'zinc-300'
+    color: 'zinc-300',
+    type: 'button',
   }
 );
 </script>
 
 <template>
   <button
+    :type="props.type"
     :class="[
       'button-app',
       `bg-${props.color}`,
