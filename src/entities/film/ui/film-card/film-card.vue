@@ -90,8 +90,8 @@ watch(props, async () => {
     </div>
 
     <AppToolbar class="mt-4">
-      <AddFilmFC v-show="!filmIsExist" :film="film" />
-      <RemoveFilmFC v-show="filmIsExist" :film="film" />
+      <AddFilmFC v-if="!filmIsExist" :film="film" @executed="updateExist" />
+      <RemoveFilmFC v-if="filmIsExist" :film="film" @executed="updateExist" />
     </AppToolbar>
 
     <div class="main-block flex my-2 max-md:flex-wrap">

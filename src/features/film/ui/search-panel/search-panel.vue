@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { AppText, FormInput, AppLoader } from '~/shared/ui';
+import { AppText, FormInput, AppLoader, ButtonApp } from '~/shared/ui';
 import ResultList from './result-list.vue';
 import { Film } from '~/entities/film';
-import lo from 'lodash';
+import { throttle } from 'lodash';
 import { DBAPI } from '~/entities/film';
-import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue'; 
+import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);
@@ -16,7 +16,7 @@ const handler = async (film: Film) => {
   emit('selectFilm', film);
 }
 
-const autoSearch = lo.debounce(async (e: Event) => {
+const search = throttle(async (e: Event) => {
   if (searchText.value.trim()) {
     isLoading.value = true;
     
@@ -35,22 +35,25 @@ const autoSearch = lo.debounce(async (e: Event) => {
     results.value = [];
     isLoading.value = false;
   }
-}, 500);
+}, 700);
 
 onMounted(async () => {
-  const db = await DBAPI.instance();
+  await DBAPI.instance();
 });
 </script>
 
 <template>
   <div>
-    <FormInput v-model="searchText" @input="autoSearch" placeholder="search" />
+    <form class="form-group" @submit.prevent="search">
+      <FormInput v-model="searchText" placeholder="search" />
+      <ButtonApp type='submit' class="text-orange-600">Поиск</ButtonApp>
+    </form>
 
     <Disclosure v-slot="{ open }" :default-open="true">
       <DisclosurePanel class="max-h-[60vh] overflow-auto" static v-show="open">
         <div class="result mt-4">
-          <div v-if="!isLoading && !searchText" class="w-full flex justify-center">
-            <AppText variant="simple" class="text-gray-500">Введите название фильма</AppText>
+          <div v-if="!isLoading && !results.length" class="w-full flex justify-center">
+            <AppText variant="simple" class="text-gray-500 text-center">Введите название фильма и нажмите "поиск"</AppText>
           </div>
           <div v-if="isLoading" class="w-full flex justify-center">
             <AppLoader size="md" />
@@ -65,6 +68,7 @@ onMounted(async () => {
   </div>
 </template>
 
+<style src="@/shared/ui/form/form.scss"></style>
 <style lang="scss" scoped>
 .result {
   height: calc(100% - 1rem - 1em - 2rem);

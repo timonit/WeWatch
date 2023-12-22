@@ -17,7 +17,7 @@ defineEmits(['update:modelValue']);
 
 <style scoped lang="scss">
 input {
-  border-color: none;
+  border: none;
   color: black;
 
   &:focus {
