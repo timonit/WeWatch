@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppText, FormInput, AppLoader } from '~/shared/ui';
+import { AppText, FormInput, AppLoader, ButtonApp } from '~/shared/ui';
 import ResultList from './result-list.vue';
 import { Film } from '~/entities/film';
 import lo from 'lodash';
@@ -44,7 +44,10 @@ onMounted(async () => {
 
 <template>
   <div>
-    <FormInput v-model="searchText" @input="autoSearch" placeholder="search" />
+    <div class="form-group">
+      <FormInput v-model="searchText" @input="autoSearch" placeholder="search" />
+      <ButtonApp class="text-orange-600">Поиск</ButtonApp>
+    </div>
 
     <Disclosure v-slot="{ open }" :default-open="true">
       <DisclosurePanel class="max-h-[60vh] overflow-auto" static v-show="open">
@@ -65,6 +68,7 @@ onMounted(async () => {
   </div>
 </template>
 
+<style src="@/shared/ui/form/form.scss"></style>
 <style lang="scss" scoped>
 .result {
   height: calc(100% - 1rem - 1em - 2rem);
