@@ -2,9 +2,11 @@
 import { AppText, FormInput, AppLoader, ButtonApp } from '~/shared/ui';
 import ResultList from './result-list.vue';
 import { Film } from '~/entities/film';
-import { throttle } from 'lodash';
+import lo from 'lodash';
 import { DBAPI } from '~/entities/film';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
+// commonJs import
+const { throttle } = lo;
 
 const results = ref<Film[]>([]);
 const isLoading = ref<boolean>(false);
