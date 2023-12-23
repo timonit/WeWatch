@@ -12,7 +12,7 @@ const selected = ref<Film | undefined>();
 const select = (item: Film) => selected.value = item;
 const go = (item: Film) => {
   emit('selected', item);
-  router.push({ path: '/', query: { id: item.id } });
+  router.push({ path: '/', query: { id: item.id, type: item.media_type } });
 }
 
 const tooltip = ref();
@@ -29,7 +29,7 @@ const tooltip = ref();
         @click="go(item)"
         @mouseenter="select(item)"
       >
-        {{ item.title }} ({{ new Date(item.release_date).getFullYear() }})
+        {{ item.title || item.name }} ({{ new Date(item.release_date || item.first_air_date).getFullYear() }})
       </li>
     </template>
   </AppSelectList>

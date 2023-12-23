@@ -19,14 +19,16 @@ const handler = async (film: Film) => {
 }
 
 const search = throttle(async (e: Event) => {
-  if (searchText.value.trim()) {
+  const val = searchText.value;
+
+  if (val.trim()) {
     isLoading.value = true;
     
-    if (searchText.value.trim()) {
+    if (val.trim()) {
       const result = await useFetch(
         '/api/film/search',
         {
-          query: { query: searchText },
+          query: { query: val },
         }
       );
 

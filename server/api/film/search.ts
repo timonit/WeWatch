@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const query = search.get('query');
   const lang = 'ru-RU';
   const res = await event.$fetch(
-    `https://api.themoviedb.org/3/search/movie`,
+    `https://api.themoviedb.org/3/search/multi`,
     {
       headers: { accept: 'application/json' },
       query: {

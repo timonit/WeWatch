@@ -15,6 +15,7 @@ export type Film = {
   homepage?: string;
   id: number;
   imdb_id?: string;
+  media_type: "tv" | "movie"
   original_language: string;
   original_title: string;
   overview?: string;

@@ -35,6 +35,6 @@ onBeforeMount(() => {
     <div v-if="!$route.query.id" class="w-full text-center pt-4">
       <AppText variant="h6" class="text-gray-500">Начните поиск и выберите фильм</AppText>
     </div>
-    <FilmCard v-if="$route.query.id" :filmID="Number($route.query.id)" />
+    <FilmCard v-if="$route.query.id" :filmID="Number($route.query.id)" :type="($route.query.type as ('tv' | 'movie'))" />
   </NuxtLayout>
 </template>
