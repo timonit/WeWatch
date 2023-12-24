@@ -1,7 +1,7 @@
 import { DBAPI } from '~/entities/film/model';
 import { Film } from '~/entities/film/types';
 import { MediaTypes } from '~/shared';
-import { PlayerDTO } from './types';
+import { PlayerDTO, VideoDTO } from './types';
 
 export class FilmService {
   isFetching = ref(true);
@@ -15,6 +15,8 @@ export class FilmService {
   playersIsFetching = ref(false);
 
   players = ref<PlayerDTO[]>([]);
+
+  trailersIsFetching = ref(false);
 
   trailers = ref<VideoDTO[]>([]);
 
@@ -77,8 +79,11 @@ export class FilmService {
 
   async fetchTrailers() {
     if (this.film.value) {
+      this.trailersIsFetching.value = true;
       const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/${this.mediaType.value}/${this.film.value.id}/video`);
+      
       if(resTrailers.data.value) this.trailers.value = resTrailers.data.value?.results;
+      this.trailersIsFetching.value = false;
     }
   }
 }
