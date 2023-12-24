@@ -21,14 +21,13 @@ export abstract class BaseApp extends EventTarget {
   async init() {
     for (let Stage of this.stages) await this.executeStage(Stage);
 
-    setTimeout(() => {
       this.status.value = 'inited';
       console.debug('app', this.status.value);
   
       this.isInited.value = true;
   
       if (this.onInited) this.onInited();
-    }, 4000)
+    
   }
 
   async executeStage(Stage: {new (app: BaseApp): StageApp}) {
