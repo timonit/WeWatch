@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const id = event.context.params?.id;
   const lang = 'ru-RU';
   const res = await event.$fetch(
-    `https://api.themoviedb.org/3/tv/${id}/videos`,
+    `https://api.themoviedb.org/3/movie/${id}/videos`,
     {
       headers: { accept: 'application/json' },
       query: {

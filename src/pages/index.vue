@@ -9,7 +9,7 @@ const { close: closeSide } = useControlSide();
 const currentFilm = ref<Film | null>(null);
 
 const selectFilm = async (id: Film['id']) => {
-  const res = await useFetch<Film>(`/api/film/${id}`);
+  const res = await useFetch<Film>(`/api/movie/${id}`);
   currentFilm.value = res.data.value as Film;
 }
 

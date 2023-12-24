@@ -103,7 +103,7 @@ watch(props, async () => {
     </div>
 
     <AppToolbar class="mt-4">
-      <AddFilmFC v-if="!filmIsExist" :film="film" @executed="updateExist" />
+      <AddFilmFC v-if="!filmIsExist" :film="film" :type="props.type" @executed="updateExist" />
       <RemoveFilmFC v-if="filmIsExist" :film="film" @executed="updateExist" />
     </AppToolbar>
 
