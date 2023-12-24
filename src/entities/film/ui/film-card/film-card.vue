@@ -7,7 +7,7 @@ import { DBAPI } from '../../model';
 import { AddFilmFC, RemoveFilmFC } from '~/features/film';
 import { onBeforeMount } from 'vue';
 
-const props = defineProps<{filmID: Film['id']}>();
+const props = defineProps<{filmID: Film['id'], type: 'movie' | 'tv'}>();
 const EXPORT_URL = 'https://image.tmdb.org/t/p';
 const isFetching = ref(false);
 const film = ref<Film | null>(null);
@@ -50,18 +50,31 @@ const updateExist = () => {
 }
 
 const fetchFilm = async () => {
-  const res = await useFetch<Film>(`/api/film/${props.filmID}`);
+  const res = await useFetch<Film>(`/api/${props.type}/${props.filmID}`);
   film.value = res.data.value;
 
-  const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/film/${props.filmID}/video`);
+  const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/${props.type}/${props.filmID}/video`);
   trailers.value = resTrailers.data.value;
 };
 fetchFilm();
 
+const getIMDB_ID = async () => {
+  if (!film.value) return undefined;
+  
+  if (props.type === 'movie') {
+    return film.value.imdb_id;
+  }
+  if (props.type === 'tv') {
+    const result = await useFetch<{'imdb_id': string}>(`/api/${props.type}/${props.filmID}/external-id`);
+    return result.data.value?.imdb_id;
+  }
+  return undefined;
+}
+
 watch(film, async () => {
   if (film.value) {
     players.value.isFetching = true;
-    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players/main?imdb=${film.value.imdb_id}`);
+    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players/main?imdb=${await getIMDB_ID()}`);
     players.value = {
       list: videos.data.value ?? [],
       isFetching: false,
@@ -83,14 +96,14 @@ watch(props, async () => {
   </div>
   <div v-if="film && !isFetching" class="flex flex-col">
     <div class="film-header flex justify-between items-start">
-      <AppText variant="h1">{{ film.title }}</AppText>
+      <AppText variant="h1">{{ film.title || film.name }}</AppText>
       <AppText v-show="filmIsExist" variant="h1">
         <AppIcon class="icon" title="Добавлен в список" icon-name="circle-check" />
       </AppText>
     </div>
 
     <AppToolbar class="mt-4">
-      <AddFilmFC v-if="!filmIsExist" :film="film" @executed="updateExist" />
+      <AddFilmFC v-if="!filmIsExist" :film="film" :type="props.type" @executed="updateExist" />
       <RemoveFilmFC v-if="filmIsExist" :film="film" @executed="updateExist" />
     </AppToolbar>
 
