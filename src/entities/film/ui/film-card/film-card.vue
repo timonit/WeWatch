@@ -1,93 +1,29 @@
 <script setup lang="ts">
-import { AppText, BadgeWW, AppIcon, AppToolbar, AppLoader } from '@/shared/ui';
 import { Film } from '../../types';
-import InfoPair from './info-pair.vue';
-import FilmTrailer from './film-trailer.vue';
-import { DBAPI } from '../../model';
-import { AddFilmFC, RemoveFilmFC } from '~/features/film';
 import { onBeforeMount } from 'vue';
+import FilmTrailers from './film-trailers.vue';
+import { MediaTypes } from '~/shared';
+import FilmPlayers from './film-players.vue';
+import FilmInfo from './film-info.vue';
+import FilmDescription from './film-description.vue';
+import FilmToolbar from './film-toolbar.vue';
+import FilmHeader from './film-header.vue';
+import { FilmService } from './service';
+import { AppLoader } from '~/shared/ui';
 
-const props = defineProps<{filmID: Film['id'], type: 'movie' | 'tv'}>();
-const EXPORT_URL = 'https://image.tmdb.org/t/p';
-const isFetching = ref(false);
-const film = ref<Film | null>(null);
-let db: DBAPI;
-
-type VideoDTO = {
-  iso_639_1: string,
-  iso_3166_1: string,
-  name: string,
-  key: string,
-  site: 'YouTube',
-  size: number,
-  type: 'Trailer',
-  official: boolean,
-  published_at: string,
-  id: string
-}
-const trailers = ref<{results: VideoDTO[]} | null>();
-
-type PlayerDTO = {
-  source:	[ 'Alloha', 'Ashdi', 'Bazon', 'Cdnmovies', 'Collaps', 'Hdvb', 'Iframe', 'Kodik', 'Videocdn', 'Voidboost' ];
-  translation: string | null;
-  quality:	string | null;
-  iframeUrl: string;
-  updatedAt:	string;
-}
-
-const players = ref<{list: PlayerDTO[], isFetching: boolean}>({list: [], isFetching: true});
-
+const props = defineProps<{filmID: Film['id'], type: MediaTypes}>();
+const service = new FilmService(props.filmID, props.type);
+const {isFetching, film} = service;
 
 onBeforeMount(async () => {
-  db = await DBAPI.instance();
-  updateExist();
+  await service.init();
 });
 
-const filmIsExist = ref(false);
-const updateExist = () => {
-  const filmExist = db.data.list.find((itemFilm) => itemFilm.id === props.filmID);
-  filmIsExist.value = !!filmExist;
-}
-
-const fetchFilm = async () => {
-  const res = await useFetch<Film>(`/api/${props.type}/${props.filmID}`);
-  film.value = res.data.value;
-
-  const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/${props.type}/${props.filmID}/video`);
-  trailers.value = resTrailers.data.value;
-};
-fetchFilm();
-
-const getIMDB_ID = async () => {
-  if (!film.value) return undefined;
-  
-  if (props.type === 'movie') {
-    return film.value.imdb_id;
-  }
-  if (props.type === 'tv') {
-    const result = await useFetch<{'imdb_id': string}>(`/api/${props.type}/${props.filmID}/external-id`);
-    return result.data.value?.imdb_id;
-  }
-  return undefined;
-}
-
-watch(film, async () => {
-  if (film.value) {
-    players.value.isFetching = true;
-    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players/main?imdb=${await getIMDB_ID()}`);
-    players.value = {
-      list: videos.data.value ?? [],
-      isFetching: false,
-    };
-  }
+watch(props, () => {
+  service.setFilm(props.filmID, props.type);
 })
-
-watch(props, async () => {
-  isFetching.value = true;
-  await fetchFilm();
-  isFetching.value = false;
-  updateExist();
-});
+  
+provide('filmService', service);
 </script>
 
 <template>
@@ -95,80 +31,11 @@ watch(props, async () => {
     <AppLoader size="md" />
   </div>
   <div v-if="film && !isFetching" class="flex flex-col">
-    <div class="film-header flex justify-between items-start">
-      <AppText variant="h1">{{ film.title || film.name }}</AppText>
-      <AppText v-show="filmIsExist" variant="h1">
-        <AppIcon class="icon" title="Добавлен в список" icon-name="circle-check" />
-      </AppText>
-    </div>
-
-    <AppToolbar class="mt-4">
-      <AddFilmFC v-if="!filmIsExist" :film="film" :type="props.type" @executed="updateExist" />
-      <RemoveFilmFC v-if="filmIsExist" :film="film" @executed="updateExist" />
-    </AppToolbar>
-
-    <div class="main-block flex my-2 max-md:flex-wrap">
-      <img :src="`${EXPORT_URL}/w200${film.poster_path}`" width="200" height="200" class="object-cover rounded-lg max-md:w-full" />
-      <div class="md:pl-4">
-        <AppText variant="h5">{{ film.tagline }}</AppText>
-        <AppText variant="paragraph">{{ film.overview }}</AppText>
-      </div>
-    </div>
-
-    <div class="info-panel flex gap-4 justify-between max-md:flex-wrap">
-      <div class="info-panel order-1 max-md:order-2">
-        <InfoPair v-if="film.production_companies" property="Компании" :value="film.production_companies.map(g => g.name).join(', ')" />
-        <InfoPair v-if="film.production_countries" property="Страны" :value="film.production_countries.map(g => g.name).join(', ')" />
-        <InfoPair property="Бюджет" :value="`${(film.budget || 0).toLocaleString()} $`" />
-        <InfoPair property="Сборы" :value="`${(film.revenue || 0).toLocaleString()} $`" />
-        <InfoPair v-if="film.release_date" property="Дата выпуска" :value="new Date(film.release_date).toLocaleDateString()" />
-        <InfoPair property="Популярность" :value="film.popularity || 0" />
-      </div>
-      <div class="flex flex-col items-end gap-6 order-2 max-md:order-1 max-md:flex-row max-md:mt-8 max-md:flex-wrap">
-        <div class="flex flex-wrap justify-end gap-2 max-md:w-full max-md:justify-start">
-          <BadgeWW v-for="g of film.genres" color="danger" class="text-sm">{{ g.name }}</BadgeWW>
-        </div>
-        <BadgeWW color="danger" class="text-sm whitespace-nowrap">
-          {{ film.status }}
-        </BadgeWW>
-        <BadgeWW color="danger" title="Продолжительность" class="text-sm whitespace-nowrap">
-          <i class="mi-clock mr-1"></i>
-          {{ film.runtime || 0 }} min
-        </BadgeWW>
-      </div>
-    </div>
-
-    <AppText variant="h6" class="mt-6">Трейлеры</AppText>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-wrap">
-      <AppText v-if="!trailers?.results.length" variant="simple" class="mt-6">Трейлеры не найдены</AppText>
-      <FilmTrailer v-for="trailer in trailers?.results" :id="trailer.key" />
-    </div>
-    
-    <AppText variant="h6" class="mt-6">Видео</AppText>
-    <div class="grid grid-cols-1 gap-4 flex-wrap">
-      <AppText v-if="!players.list.length && !players.isFetching" variant="simple" class="mt-6">Видео не найдены</AppText>
-      <AppLoader v-if="players.isFetching" size="md" />
-
-      <template v-if="players.list.length">
-        <iframe
-          v-for="player in players.list"
-          :src="player.iframeUrl"
-          width="720"
-          height="450"
-          frameborder="0"
-          scrolling="no"
-          allowfullscreen
-          class="w-full h-auto aspect-video"
-          loading=""
-        ></iframe>
-      </template>
-
-    </div>
+    <FilmHeader />
+    <FilmToolbar />
+    <FilmDescription />
+    <FilmInfo />
+    <FilmTrailers />
+    <FilmPlayers />
   </div>
 </template>
-
-<style scoped>
-.icon {
-  color: var(--brand-first);
-}
-</style>
