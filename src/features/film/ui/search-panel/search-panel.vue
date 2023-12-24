@@ -5,10 +5,11 @@ import { Film } from '~/entities/film';
 import lo from 'lodash';
 import { DBAPI } from '~/entities/film';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
+import { ResultItem, SearchResult } from './types';
 // commonJs import
 const { throttle } = lo;
 
-const results = ref<Film[]>([]);
+const results = ref<ResultItem[]>([]);
 const isLoading = ref<boolean>(false);
 const searchText = ref<string>('');
 
@@ -19,19 +20,23 @@ const handler = async (film: Film) => {
 }
 
 const search = throttle(async (e: Event) => {
-  if (searchText.value.trim()) {
+  const val = searchText.value;
+
+  if (val.trim()) {
     isLoading.value = true;
     
-    if (searchText.value.trim()) {
-      const result = await useFetch(
-        '/api/film/search',
+    if (val.trim()) {
+      const result = await useFetch<SearchResult>(
+        '/api/movie/search',
         {
-          query: { query: searchText },
+          query: { query: val },
         }
       );
 
-      results.value = result.data.value?.results;
-      isLoading.value = false;
+      if (result.data.value) {
+        results.value = result.data.value?.results;
+        isLoading.value = false;
+      }
     }
   } else {
     results.value = [];

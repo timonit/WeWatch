@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Film } from '~/entities/film';
 import { AppSelectList } from '~/shared/ui';
+import { ResultItem } from './types';
 
 const router = useRouter();
-const props = defineProps<{list: Film[]}>();
+const props = defineProps<{list: ResultItem[]}>();
 const emit = defineEmits<{
-  (e: 'selected', film: Film): void
+  (e: 'selected', film: ResultItem): void
 }>();
 
-const selected = ref<Film | undefined>();
-const select = (item: Film) => selected.value = item;
-const go = (item: Film) => {
+const selected = ref<ResultItem | undefined>();
+const select = (item: ResultItem) => selected.value = item;
+const go = (item: ResultItem) => {
   emit('selected', item);
-  router.push({ path: '/', query: { id: item.id } });
+  router.push({ path: '/', query: { id: item.id, type: item.media_type } });
 }
 
 const tooltip = ref();
@@ -29,7 +29,7 @@ const tooltip = ref();
         @click="go(item)"
         @mouseenter="select(item)"
       >
-        {{ item.title }} ({{ new Date(item.release_date).getFullYear() }})
+        {{ item.title || item.name }} ({{ new Date(item.release_date || item.first_air_date).getFullYear() }})
       </li>
     </template>
   </AppSelectList>

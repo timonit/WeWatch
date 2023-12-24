@@ -4,7 +4,7 @@ import { AddFilmFeature } from '../model';
 import { Film } from '~/entities/film';
 import { useAuthState } from '~/entities/auth';
 
-const props = defineProps<{film: Film}>();
+const props = defineProps<{film: Film, type: 'movie' | 'tv'}>();
 const isLoading = ref(false);
 const auth = useAuthState();
 const emit = defineEmits(['executed']);
@@ -12,7 +12,11 @@ const emit = defineEmits(['executed']);
 const featureAdd = new AddFilmFeature();
 const handler = async () => {
   isLoading.value = true;
-  await featureAdd.execute(props.film.id, props.film.title)
+  await featureAdd.execute({
+    id: props.film.id,
+    title: props.film.title || props.film.name as string,
+    type: props.type,
+  })
   isLoading.value = false;
   emit('executed');
 }

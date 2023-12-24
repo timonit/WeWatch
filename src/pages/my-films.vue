@@ -11,7 +11,7 @@ const selectedID = ref();
 
 const selectFilm = async (id: Film['id']) => {
   selectedID.value = id;
-  const res = await useFetch(`/api/film/${id}`);
+  const res = await useFetch(`/api/movie/${id}`);
   currentFilm.value = res.data.value as Film;
 }
 
@@ -27,6 +27,6 @@ if (route.query.id) selectFilm(Number(route.query.id));
     <div v-if="!$route.query.id" class="w-full text-center pt-4">
       <AppText variant="h6" class="text-gray-500">Выберите фильм</AppText>
     </div>
-    <FilmCard v-if="$route.query.id" :filmID="Number($route.query.id)" />
+    <FilmCard v-if="$route.query.id" :filmID="Number($route.query.id)"  :type="($route.query.type as ('tv' | 'movie'))" />
   </NuxtLayout>
 </template>

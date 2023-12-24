@@ -30,10 +30,10 @@ if (app.status.value !== 'inited') {
   <div v-if="isFetching" class="flex justify-center">
     <AppLoader size="md" />
   </div>
-  <AppSelectList :list="list" v-else>
+  <AppSelectList class="h-[75vh]" :list="list" v-else>
     <template #item="item">
       <NuxtLink
-        :to="{ path: '/my-films', query: {id: item.id} }"
+        :to="{ path: '/my-films', query: {id: item.id, type: item.type} }"
         class="item text-[0.8rem] px-3 py-2 mr-2 rounded-lg flex"
         :class="{active: Number($route.query.id) === Number(item.id)}"
         @click="$emit('selectFilm', item)"

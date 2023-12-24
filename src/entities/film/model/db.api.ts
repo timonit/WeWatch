@@ -4,6 +4,7 @@ import { Film } from '../types';
 type MainDataFilm = {
   title: Film['title'];
   id: Film['id'];
+  type: 'tv' | 'movie';
 }
 
 type DBData = {
