@@ -25,22 +25,26 @@ export class DBAPI extends GoogleAPI {
   dbFileName = 'DBWeWatch11551122.json';
   descriptionFile = 'Data base file by WeWatch';
   idFile?: string;
+  isFetching: Ref<boolean> = ref(true);
 
-  data: DBData = initDBData;
+  data: DBData = reactive(initDBData);
 
   async onInited() {
     try {
+      this.isFetching.value = true;
       let dbFile = await this.getDBFile();
       if (!dbFile) dbFile = await this.initDBFile();
 
-      const data =  await gapi.client.drive.files.get(
+      const data = await gapi.client.drive.files.get(
         { fileId: dbFile.id, alt: 'media' }
       );
 
       this.idFile = dbFile.id;
-      this.data = data.result;
+      this.data.list = data.result.list;
     } catch(e) {
       console.error('My error', e);
+    } finally {
+      this.isFetching.value = false;
     }
   }
 

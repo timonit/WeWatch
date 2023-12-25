@@ -12,7 +12,7 @@ export class AddFilmFeature extends Feature<Promise<void>> {
     const db = await DBAPI.instance();
     // const mainData = {id, title};
 
-    if (db.data.list && Array.isArray(db.data.list)) {
+    if (Array.isArray(db.data.list) && db.data.list.length) {
       const IDAlreadyExist = db.data.list.find(film => film.id === inputDTO.id);
       if (IDAlreadyExist) return;
 
