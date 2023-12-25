@@ -52,7 +52,9 @@ export class FilmService {
   
   updateExist = () => {
     if (this.film.value){
-      const filmExist = this.db.data.list.find((itemFilm) => itemFilm.id === this.film.value.id);
+      const filmExist = this.db.data.list.find((itemFilm) => {
+        return itemFilm.id === this.film.value.id
+      });
       this.filmIsExist.value = !!filmExist;
     }
   }
