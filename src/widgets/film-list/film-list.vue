@@ -1,36 +1,30 @@
 <script setup lang="ts">
+import { WatchStopHandle } from 'nuxt/dist/app/compat/capi';
 import { DBAPI } from '~/entities/film';
 import { AppLoader, AppText, AppSelectList } from '~/shared/ui';
-import { app } from '~/app/model/app';
 
 const emit = defineEmits<{(e: 'selectFilm', film: any): void}>();
+const isFetching = ref<boolean>(true);
+const list = ref<any[]>([]);
+let unWatch: WatchStopHandle;
 
-const list = ref<{title: string; id: number;}[]>([]);
-const isFetching = ref(true);
+onBeforeMount(async () => {
+  const db = await DBAPI.instance();
+  isFetching.value = db.isFetching.value;
 
-const initList = () => {
-  DBAPI.instance()
-    .then((db) => {
-      list.value = db.data.list;
-    })
-    .finally(() => {
-      isFetching.value = false;
-    }); 
-}
+  unWatch = watch(() => db.data.list, (listData) => {
+    list.value = listData;
+  }, {immediate: true});
+});
 
-if (app.status.value !== 'inited') {
-  app.addEventListener('stageFinished', (event) => {
-    if (event.stageName === 'authorization') initList();
-  })
-} else initList();
-
+onUnmounted(() => unWatch());
 </script>
 
 <template>
   <div v-if="isFetching" class="flex justify-center">
     <AppLoader size="md" />
   </div>
-  <AppSelectList class="h-[75vh]" :list="list" v-else>
+  <AppSelectList class="h-[65vh]" :list="list" v-else>
     <template #item="item">
       <NuxtLink
         :to="{ path: '/my-films', query: {id: item.id, type: item.type} }"
@@ -57,5 +51,4 @@ if (app.status.value !== 'inited') {
     background-color: rgba($color: #000, $alpha: 0.3);
   }
 }
-
 </style>
