@@ -47,39 +47,46 @@ const search = throttle(async (e: Event) => {
 onMounted(async () => {
   await DBAPI.instance();
 });
+
+const formEl = ref<HTMLElement>();
+const btnEl = ref<HTMLElement>();
+const height = computed(() => {
+  return `calc(100% - ${formEl.value?.offsetHeight}px - ${formEl.value?.offsetHeight}px)`;
+})
 </script>
 
 <template>
-  <div>
-    <form class="form-group" @submit.prevent="search">
+  <div class="h-full">
+    <form ref="formEl" class="form-group" @submit.prevent="search">
       <FormInput v-model="searchText" placeholder="search" />
       <ButtonApp type='submit' class="text-orange-600">Поиск</ButtonApp>
     </form>
 
     <Disclosure v-slot="{ open }" :default-open="true">
-      <DisclosurePanel class="max-h-[60vh] overflow-auto" static v-show="open">
-        <div class="result mt-4">
+      <DisclosurePanel  class="result box-border" static v-show="open">
+        <div class="mt-4">
           <div v-if="!isLoading && !results.length" class="w-full flex justify-center">
             <AppText variant="simple" class="text-gray-500 text-center">Введите название фильма и нажмите "поиск"</AppText>
           </div>
           <div v-if="isLoading" class="w-full flex justify-center">
             <AppLoader size="md" />
           </div>
-          <ResultList v-else :list="results" @selected="handler" />
+          <ResultList class="result__list" v-else :list="results" @selected="handler" />
         </div>
       </DisclosurePanel>
-      <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="open">свернуть</DisclosureButton>
+      <DisclosureButton ref="btnEl" class="dis-trigger text-center w-full my-4 border" v-if="open">свернуть</DisclosureButton>
       <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="!open">развернуть</DisclosureButton>
     </Disclosure>
-
   </div>
 </template>
 
 <style src="@/shared/ui/form/form.scss"></style>
 <style lang="scss" scoped>
 .result {
-  height: calc(100% - 1rem - 1em - 2rem);
+  height: v-bind('height');
+  overflow: auto;
 }
+
 .dis-trigger {
   background-color: var(--bg-secondary);
   border-color: var(--border-color-secondary);
