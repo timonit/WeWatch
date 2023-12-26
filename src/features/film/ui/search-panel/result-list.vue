@@ -19,19 +19,18 @@ const tooltip = ref();
 </script>
 
 <template>
-  <AppSelectList :list="props.list">
-    <template #item="item">
-      <li
-        v-tooltip:right-start="tooltip"
-        class="px-3 py-2 mr-2 rounded-lg select-none"
-        :class="{ active: Number($route.query.id) === Number(item.id) }"
-        :to="{ path: '/', query: {id: item.id} }"
-        @click="go(item)"
-        @mouseenter="select(item)"
-      >
-        {{ item.title || item.name }} ({{ new Date(item.release_date || item.first_air_date).getFullYear() }})
-      </li>
-    </template>
+  <AppSelectList>
+    <li
+      v-for="item in props.list"
+      v-tooltip:right-start="tooltip"
+      class="px-3 py-2 mr-2 rounded-lg select-none"
+      :class="{ active: Number($route.query.id) === Number(item.id) }"
+      :to="{ path: '/', query: {id: item.id} }"
+      @click="go(item)"
+      @mouseenter="select(item)"
+    >
+      {{ item.title || item.name }} ({{ new Date(item.release_date || item.first_air_date).getFullYear() }})
+    </li>
   </AppSelectList>
   <div class="invisible bg-gray-600 rounded-lg px-3 py-2 absolute w-max max-md:hidden" ref="tooltip">
     <div v-if="selected" class="flex flex-col">

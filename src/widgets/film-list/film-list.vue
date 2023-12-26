@@ -67,7 +67,7 @@ const dragEnter = (e: DragEvent, item: any, index: number) => {
 </script>
 
 <template>
-  <AppSelectList class="h-[65vh]">
+  <AppSelectList class="h-full">
     <div v-if="isFetching" class="flex justify-center">
       <AppLoader size="md" />
     </div>
