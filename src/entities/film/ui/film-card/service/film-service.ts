@@ -64,7 +64,7 @@ export class FilmService {
     
     if (this.mediaType.value === 'movie') return this.film.value.imdb_id;
     if (this.mediaType.value === 'tv') {
-      const result = await useFetch<{'imdb_id': string}>(`/api/${this.mediaType}/${this.film.value.id}/external-id`);
+      const result = await useFetch<{'imdb_id': string}>(`/api/${this.mediaType.value}/${this.film.value.id}/external-id`);
       return result.data.value?.imdb_id;
     }
     return undefined;
