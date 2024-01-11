@@ -6,12 +6,14 @@ import lo from 'lodash';
 import { DBAPI } from '~/entities/film';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
 import { ResultItem, SearchResult } from './types';
+import { addQuerySearch, getQuerySearch } from './last-query-list';
 // commonJs import
 const { throttle } = lo;
 
 const results = ref<ResultItem[]>([]);
 const isLoading = ref<boolean>(false);
 const searchText = ref<string>('');
+const lastQueries = ref<string[]>([]);
 
 const emit = defineEmits<{(e: 'selectFilm', film: Film): void}>();
 
@@ -42,11 +44,16 @@ const search = throttle(async (e: Event) => {
     results.value = [];
     isLoading.value = false;
   }
+
+  addQuerySearch(val);
+  lastQueries.value = getQuerySearch();
 }, 700);
 
 onMounted(async () => {
   await DBAPI.instance();
+  lastQueries.value = getQuerySearch();
 });
+
 
 const formEl = ref<HTMLElement>();
 const btnEl = ref<HTMLElement>();
@@ -58,7 +65,13 @@ const height = computed(() => {
 <template>
   <div class="h-full">
     <form ref="formEl" class="form-group" @submit.prevent="search">
-      <FormInput v-model="searchText" placeholder="search" type="search" />
+      <FormInput list="last-searсh-queries" v-model="searchText" placeholder="search" type="search" />
+      <datalist id="last-searсh-queries">
+        <option
+          v-for="query of lastQueries"
+          :value="query"
+        ></option>
+      </datalist>
       <ButtonApp type='submit' class="text-orange-600">Поиск</ButtonApp>
     </form>
 
