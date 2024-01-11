@@ -58,7 +58,7 @@ const height = computed(() => {
 <template>
   <div class="h-full">
     <form ref="formEl" class="form-group" @submit.prevent="search">
-      <FormInput v-model="searchText" placeholder="search" />
+      <FormInput v-model="searchText" placeholder="search" type="search" />
       <ButtonApp type='submit' class="text-orange-600">Поиск</ButtonApp>
     </form>
 
