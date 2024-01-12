@@ -54,7 +54,6 @@ onMounted(async () => {
   lastQueries.value = getQuerySearch();
 });
 
-
 const formEl = ref<HTMLElement>();
 const btnEl = ref<HTMLElement>();
 const height = computed(() => {
@@ -76,30 +75,29 @@ const height = computed(() => {
     </form>
 
     <Disclosure v-slot="{ open }" :default-open="true">
-      <DisclosurePanel  class="result box-border" static v-show="open">
-        <div class="mt-4">
+      <DisclosurePanel class="max-h-[60vh] overflow-auto" static v-show="open">
+        <div class="result mt-4">
           <div v-if="!isLoading && !results.length" class="w-full flex justify-center">
             <AppText variant="simple" class="text-gray-500 text-center">Введите название фильма и нажмите "поиск"</AppText>
           </div>
           <div v-if="isLoading" class="w-full flex justify-center">
             <AppLoader size="md" />
           </div>
-          <ResultList class="result__list" v-else :list="results" @selected="handler" />
+          <ResultList v-else :list="results" @selected="handler" />
         </div>
       </DisclosurePanel>
-      <DisclosureButton ref="btnEl" class="dis-trigger text-center w-full my-4 border" v-if="open">свернуть</DisclosureButton>
+      <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="open">свернуть</DisclosureButton>
       <DisclosureButton class="dis-trigger text-center w-full my-4 border" v-if="!open">развернуть</DisclosureButton>
     </Disclosure>
+
   </div>
 </template>
 
 <style src="@/shared/ui/form/form.scss"></style>
 <style lang="scss" scoped>
 .result {
-  height: v-bind('height');
-  overflow: auto;
+  height: calc(100% - 1rem - 1em - 2rem);
 }
-
 .dis-trigger {
   background-color: var(--bg-secondary);
   border-color: var(--border-color-secondary);

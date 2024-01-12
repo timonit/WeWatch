@@ -57,7 +57,7 @@ onBeforeMount(async () => {
             <slot name="side"></slot>
           </AppSlideOver>
         </aside>
-        <aside class="max-md:hidden md:w-[280px] h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
+        <aside class="max-md:hidden md:w-[280px] h-fit max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
           <slot name="side"></slot>
         </aside>
       </template>
