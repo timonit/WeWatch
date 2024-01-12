@@ -2,7 +2,7 @@
 import { FilmService, PlayerDTO } from './service';
 import { AppText, AppLoader } from '~/shared/ui';
 
-const playerIsLoading = ref(true);
+const playerIsLoading = ref(false);
 const service = inject('filmService') as FilmService;
 const { players, playersIsFetching } = service;
 const route = useRoute();
