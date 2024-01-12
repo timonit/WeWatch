@@ -2,9 +2,18 @@
 import { FilmService, PlayerDTO } from './service';
 import { AppText, AppLoader } from '~/shared/ui';
 
+const playerIsLoading = ref(true);
 const service = inject('filmService') as FilmService;
 const { players, playersIsFetching } = service;
 const route = useRoute();
+
+const loadPlayerEnd = () => {
+  playerIsLoading.value = false;
+}
+
+const loadPlayerStart = (player: PlayerDTO) => {
+  if (player.source !== route.query.source) playerIsLoading.value = true;
+}
 </script>
 
 <template>
@@ -26,23 +35,31 @@ const route = useRoute();
                 source: player.source,
               }
             }"
+            @click="loadPlayerStart(player)"
           >
             {{ player.source }}
           </RouterLink>
         </div>
         
-        <iframe
-          v-for="player in players"
-          v-show="player.source === route.query.source"
-          :src="player.iframeUrl"
-          width="720"
-          height="450"
-          frameborder="0"
-          scrolling="no"
-          allowfullscreen
-          class="w-full h-auto aspect-video"
-          loading=""
-        ></iframe>
+        <div v-if="players.length" class="relative">
+          <div v-if="playerIsLoading" class="absolute w-full flex justify-center mt-2">
+            <AppLoader size="lg" />
+          </div>
+          <template v-for="player in players">
+            <iframe
+              v-if="player.source === route.query.source"
+              :src="player.iframeUrl"
+              width="720"
+              height="450"
+              frameborder="0"
+              scrolling="no"
+              allowfullscreen
+              class="w-full h-auto aspect-video"
+              loading=""
+              @load="loadPlayerEnd"
+            ></iframe>
+          </template>
+        </div>
       </template>
 
     </div>
