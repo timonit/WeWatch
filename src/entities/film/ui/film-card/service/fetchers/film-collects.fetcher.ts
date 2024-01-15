@@ -29,6 +29,7 @@ type CollectResult = {
 
 export class FilmCollectsFetcher extends Fetcher<CollectResult> {
   getURL(): string {
+    if (!this.film.belongs_to_collection) throw new Error('Property belongs_to_collection not found');
     return `/api/${this.mediaType}/collects/${this.film.belongs_to_collection.id}`;
   }
 }

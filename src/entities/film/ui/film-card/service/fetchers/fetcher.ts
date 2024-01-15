@@ -16,11 +16,13 @@ export abstract class Fetcher<T> {
   constructor(film: Film, mediaType: MediaTypes) {
     this.film = film;
     this.mediaType = mediaType;
+
+    const url = this.getURL();
     // @ts-ignore
-    this.asyncData = useFetch<Ref<string>, any>(this.getURL(), {server: false, immediate: false});
+    this.asyncData = useFetch<Ref<string>, any>(url, {server: false, immediate: false});
   }
 
   async fetch() {
-    await this.asyncData.execute();
+    return this.asyncData.execute();
   }
 }

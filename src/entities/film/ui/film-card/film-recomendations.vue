@@ -4,13 +4,15 @@ import { FilmService } from './service';
 
 const service = inject('filmService') as FilmService;
 const recommendations = service.recommendations;
+
 onMounted(() => {
+  if (!recommendations) return;
   recommendations.fetch();
 })
 </script>
 
 <template>
-  <div class="w-full flex gap-4 overflow-x-auto overflow-y-hidden">
+  <div v-if="recommendations" class="w-full flex gap-4 overflow-x-auto overflow-y-hidden py-1">
     <div v-if="recommendations.asyncData.pending.value" class="flex justify-center">
       <AppLoader size="md" />
     </div>

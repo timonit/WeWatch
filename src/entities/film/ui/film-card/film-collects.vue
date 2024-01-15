@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { AppText, AppIcon, BadgeWW, AppLoader } from '~/shared/ui';
+import { AppText, AppLoader } from '~/shared/ui';
 import { FilmService } from './service';
 
 const service = inject('filmService') as FilmService;
 const collects = service.collects;
+
 onMounted(() => {
-  collects.fetch();
+  if (!collects) return;
+  collects.fetch().catch((err) => {console.log('my err')});
 })
 </script>
 
 <template>
-  <div class="w-full flex gap-4 overflow-x-auto overflow-y-hidden">
+  <div v-if="collects" class="w-full flex gap-4 overflow-x-auto overflow-y-hidden py-1">
     <div v-if="collects.asyncData.pending.value" class="flex justify-center">
       <AppLoader size="md" />
     </div>

@@ -27,9 +27,9 @@ export class FilmService {
 
   db!: DBAPI;
 
-  collects!: FilmCollectsFetcher;
+  collects?: FilmCollectsFetcher;
 
-  recommendations!: FilmRecommendationsFetcher;
+  recommendations?: FilmRecommendationsFetcher;
 
   constructor(public filmID: Film['id'], type: MediaTypes) {
     this.mediaType.value = type;
@@ -51,7 +51,10 @@ export class FilmService {
 
     this.fetchPlayers();
     this.fetchTrailers();
-    this.collects = new FilmCollectsFetcher(this.film.value, this.mediaType.value);
+    try {
+      this.collects = new FilmCollectsFetcher(this.film.value, this.mediaType.value);
+    } catch(err) {
+    }
     this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
   };
 
