@@ -10,6 +10,9 @@ import FilmToolbar from './film-toolbar.vue';
 import FilmHeader from './film-header.vue';
 import { FilmService } from './service';
 import { AppLoader } from '~/shared/ui';
+import FilmCollects from './film-collects.vue';
+import AppCollapse from '~/shared/ui/app-collapse.vue';
+import FilmRecomendations from './film-recomendations.vue';
 
 const props = defineProps<{filmID: Film['id'], type: MediaTypes}>();
 const service = new FilmService(props.filmID, props.type);
@@ -22,8 +25,12 @@ onBeforeMount(async () => {
 watch(props, () => {
   service.setFilm(props.filmID, props.type);
 })
-  
+
 provide('filmService', service);
+
+const collectsIsCollapsed = ref(true);
+const recommendationsIsCollapsed = ref(true);
+const treilersIsCollapsed = ref(true);
 </script>
 
 <template>
@@ -35,7 +42,19 @@ provide('filmService', service);
     <FilmToolbar />
     <FilmDescription />
     <FilmInfo />
-    <FilmTrailers />
-    <FilmPlayers />
+
+    <AppCollapse class="mt-6" v-if="service.film.value?.belongs_to_collection" v-model:collapsed="collectsIsCollapsed" title="...иквелы">
+      <FilmCollects />
+    </AppCollapse>
+
+    <AppCollapse class="mt-6" v-model:collapsed="recommendationsIsCollapsed" title="Рекоммендации">
+      <FilmRecomendations />
+    </AppCollapse>
+
+    <AppCollapse class="mt-6" v-model:collapsed="treilersIsCollapsed" title="Трейлеры">
+      <FilmTrailers />
+    </AppCollapse>
+
+    <FilmPlayers class="mt-6" />
   </div>
 </template>
