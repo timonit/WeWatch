@@ -2,6 +2,9 @@ import { DBAPI } from '~/entities/film/model';
 import { Film } from '~/entities/film/types';
 import { MediaTypes } from '~/shared';
 import { PlayerDTO, VideoDTO } from './types';
+import { FilmCollectsFetcher } from './fetchers/film-collects.fetcher';
+import { FilmRecommendationsFetcher } from './fetchers/film-recommendations.fetcher';
+import { EXPORT_URL } from './constants';
 
 export class FilmService {
   isFetching = ref(true);
@@ -20,7 +23,13 @@ export class FilmService {
 
   trailers = ref<VideoDTO[]>([]);
 
+  EXPORT_URL = EXPORT_URL;
+
   db!: DBAPI;
+
+  collects?: FilmCollectsFetcher;
+
+  recommendations?: FilmRecommendationsFetcher;
 
   constructor(public filmID: Film['id'], type: MediaTypes) {
     this.mediaType.value = type;
@@ -42,6 +51,11 @@ export class FilmService {
 
     this.fetchPlayers();
     this.fetchTrailers();
+    try {
+      this.collects = new FilmCollectsFetcher(this.film.value, this.mediaType.value);
+    } catch(err) {
+    }
+    this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
   };
 
   setFilm(filmID: Film['id'], mediaType: MediaTypes) {
