@@ -62,7 +62,7 @@ onBeforeMount(async () => {
         </aside>
       </template>
       
-      <main class="w-[calc(100%-280px)] px-4 rounded-md">
+      <main class="md:w-[calc(100%-280px)] px-4 rounded-md">
         <slot></slot>
       </main>
       
