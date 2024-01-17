@@ -8,12 +8,21 @@ export default defineNuxtConfig({
   },
   dir: {
     layouts: 'shared/ui/layout',
-    plugins: 'shared/directives'
+    plugins: 'shared/directives',
+    middleware: 'shared/middleware'
   },
   app: {
     head: {
+      link: [
+        {
+          rel: 'icon',
+          href: '_nuxt/shared/assets/icon.svg',
+          type: 'image/svg+xml'
+        }
+      ],
       script: [
-        { src: "https://apis.google.com/js/api.js"}
+        { src: "https://www.googletagmanager.com/gtag/js?id=G-GQJLQSBNKT" },
+        { src: "https://apis.google.com/js/api.js" },
       ]
     }
   },
