@@ -87,7 +87,7 @@ export class FilmService {
   async fetchPlayers() {
     this.playersIsFetching.value = true;
     
-    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players/main?imdb=${await this.getIMDB_ID()}`);
+    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players?imdb=${await this.getIMDB_ID()}`);
     this.players.value = videos.data.value ?? [];
 
     this.playersIsFetching.value = false;
