@@ -8,7 +8,7 @@ export default defineEventHandler((event: H3Event<EventHandlerRequest>) => {
     GOOGLE_CLIENT_SECRET: clientSecret,
     GOOGE_AUTH_REDIRECT_URI: redirectUri,
   } = process.env;
-  const scope = 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive openid https://www.googleapis.com/auth/userinfo.profile';
+  const scope = 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file openid https://www.googleapis.com/auth/userinfo.profile';
 
   const auth = new google.auth.OAuth2({
     clientId,
@@ -20,7 +20,7 @@ export default defineEventHandler((event: H3Event<EventHandlerRequest>) => {
     scope,
     include_granted_scopes: true,
     response_type: 'code',
-    prompt: 'select_account',
+    prompt: 'select_account consent',
     access_type: 'offline',
   });
 

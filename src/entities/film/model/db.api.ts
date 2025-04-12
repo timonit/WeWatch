@@ -19,7 +19,7 @@ const initDBData: DBData = {
 
 export class DBAPI extends GoogleAPI {
   discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
-  scope = 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive openid https://www.googleapis.com/auth/userinfo.profile';
+  scope = 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file openid https://www.googleapis.com/auth/userinfo.profile';
 
   folderName = 'WeWatch';
   dbFileName = 'DBWeWatch11551122.json';
