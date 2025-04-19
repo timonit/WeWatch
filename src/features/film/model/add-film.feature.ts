@@ -10,7 +10,8 @@ type InputDTO = {
 export class AddFilmFeature extends Feature<Promise<void>> {
   async execute(inputDTO: InputDTO): Promise<void> {
     const db = await DBAPI.instance();
-    // const mainData = {id, title};
+
+    await db.fetchList();
 
     if (Array.isArray(db.data.list) && db.data.list.length) {
       const IDAlreadyExist = db.data.list.find(film => film.id === inputDTO.id);
