@@ -30,6 +30,10 @@ export class DBAPI extends GoogleAPI {
   data: DBData = reactive(initDBData);
 
   async onInited() {
+    await this.fetchList();
+  }
+
+  async fetchList() {
     try {
       this.isFetching.value = true;
       let dbFile = await this.getDBFile();
