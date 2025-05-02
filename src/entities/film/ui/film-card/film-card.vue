@@ -32,7 +32,7 @@ provide('filmService', service);
 const collectsIsCollapsed = ref(true);
 const recommendationsIsCollapsed = ref(true);
 const treilersIsCollapsed = ref(true);
-const castsIsCollapsed = ref(false);
+const castsIsCollapsed = ref(true);
 </script>
 
 <template>
