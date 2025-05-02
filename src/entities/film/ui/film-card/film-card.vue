@@ -13,6 +13,7 @@ import { AppLoader } from '~/shared/ui';
 import FilmCollects from './film-collects.vue';
 import AppCollapse from '~/shared/ui/app-collapse.vue';
 import FilmRecomendations from './film-recomendations.vue';
+import FilmCasts from './film-casts.vue';
 
 const props = defineProps<{filmID: Film['id'], type: MediaTypes}>();
 const service = new FilmService(props.filmID, props.type);
@@ -31,6 +32,7 @@ provide('filmService', service);
 const collectsIsCollapsed = ref(true);
 const recommendationsIsCollapsed = ref(true);
 const treilersIsCollapsed = ref(true);
+const castsIsCollapsed = ref(false);
 </script>
 
 <template>
@@ -42,6 +44,10 @@ const treilersIsCollapsed = ref(true);
     <FilmToolbar />
     <FilmDescription />
     <FilmInfo />
+
+    <AppCollapse class="mt-6" v-model:collapsed="castsIsCollapsed" title="Актеры">
+      <FilmCasts />
+    </AppCollapse>
 
     <AppCollapse class="mt-6" v-if="service.film.value?.belongs_to_collection" v-model:collapsed="collectsIsCollapsed" title="...иквелы">
       <FilmCollects />

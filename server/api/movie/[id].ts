@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
       query: {
         language: lang,
         api_key: process.env.API_KEY,
+        append_to_response: 'credits',
       }
     }
   );
