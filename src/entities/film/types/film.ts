@@ -4,11 +4,13 @@ import { Country } from './country';
 import { SpokenLanguage } from './spoken-language';
 import { Status } from './status';
 import { Video } from './video';
+import { Credits } from './credits';
 
 export type Film = {
   adult: boolean;
   backdrop_path?: string;
   belongs_to_collection?: any;
+  credits: Credits;
   budget: number;
   genres: Genre[];
   genre_ids: number[];
