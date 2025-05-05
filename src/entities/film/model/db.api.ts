@@ -1,21 +1,6 @@
 import { GoogleAPI } from '~/shared/utils';
-import { Film } from '../types';
-
-type MainDataFilm = {
-  title: Film['title'];
-  id: Film['id'];
-  type: 'tv' | 'movie';
-}
-
-type DBData = {
-  appName: string,
-  list: MainDataFilm[],
-}
-
-const initDBData: DBData = {
-  appName: "WeWatch",
-  list: [],
-}
+import { initDBData } from './constants';
+import { DBData } from './types';
 
 export class DBAPI extends GoogleAPI {
   discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
@@ -45,6 +30,7 @@ export class DBAPI extends GoogleAPI {
 
       this.idFile = dbFile.id;
       this.data.list = data.result.list;
+      this.data.watched = data.result.watched;
     } catch(e) {
       console.error('My error', e);
     } finally {
@@ -97,6 +83,7 @@ export class DBAPI extends GoogleAPI {
   async initDBFile() {
     const folderWW = await this.getOrCreateFolder();
 
+    // create file
     const DBFile = await gapi.client.request({
       path: 'https://www.googleapis.com/drive/v3/files',
       method: 'POST',
@@ -108,10 +95,11 @@ export class DBAPI extends GoogleAPI {
       }
     });
 
+    // upload init state
     const updatedDBFile = await gapi.client.request({
       path: `https://www.googleapis.com/upload/drive/v3/files/${DBFile.result.id}`,
       method: 'PATCH',
-      body: '{"appName": "WeWatch"}'
+      body: JSON.stringify(initDBData)
     });
 
     return updatedDBFile.result;
