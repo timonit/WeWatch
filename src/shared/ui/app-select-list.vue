@@ -8,6 +8,8 @@ const key = props.keyTitle as keyof ListItemType || 'title';
 
 <template>
   <ul class="flex flex-col overflow-auto">
+    <slot name='top'></slot>
+
     <template v-if="$slots.item">
       <slot v-for="item of props.list" name='item' v-bind="item"></slot>
     </template>
