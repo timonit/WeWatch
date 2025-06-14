@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // devtools: { enabled: true },
+  compatibilityDate: "2025-06-14",
   srcDir: './src/',
   pages: true,
   experimental: {
