@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppText } from '..';
-import { ITool } from './types';
+import type { ITool } from './types';
 const props = defineProps<{tool: ITool}>();
 </script>
 

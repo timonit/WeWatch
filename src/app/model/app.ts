@@ -7,12 +7,12 @@ import { DBAPI } from '~/entities/film';
 import { AuthAPI } from '~/entities/auth';
 
 export class App extends BaseApp {
-  stages = [
+  override stages = [
     LoadStage,
     AuthStage,
   ]
 
-  async onInited(): Promise<void> {
+  override async onInited(): Promise<void> {
     await AuthAPI.instance();
     await DBAPI.instance();
   }

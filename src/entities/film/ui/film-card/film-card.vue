@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Film } from '../../types';
+import type { Film } from '../../types';
 import { onBeforeMount } from 'vue';
 import FilmTrailers from './film-trailers.vue';
-import { MediaTypes } from '~/shared';
+import type { MediaTypes } from '~/shared';
 import FilmPlayers from './film-players.vue';
 import FilmInfo from './film-info.vue';
 import FilmDescription from './film-description.vue';

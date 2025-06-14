@@ -1,7 +1,7 @@
 import { DBAPI } from '~/entities/film/model';
-import { Film } from '~/entities/film/types';
-import { MediaTypes } from '~/shared';
-import { PlayerDTO, VideoDTO } from './types';
+import type { Film } from '~/entities/film/types';
+import type { MediaTypes } from '~/shared';
+import type { PlayerDTO, VideoDTO } from './types';
 import { FilmCollectsFetcher } from './fetchers/film-collects.fetcher';
 import { FilmRecommendationsFetcher } from './fetchers/film-recommendations.fetcher';
 import { EXPORT_URL } from './constants';

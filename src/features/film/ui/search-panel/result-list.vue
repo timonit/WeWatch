@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppSelectList } from '~/shared/ui';
-import { ResultItem } from './types';
+import { type ResultItem } from './types';
 
 const router = useRouter();
 const props = defineProps<{list: ResultItem[]}>();

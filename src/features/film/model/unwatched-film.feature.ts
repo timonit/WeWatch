@@ -1,5 +1,5 @@
 import { Feature } from '~/shared/model';
-import { DBAPI, Film } from '~/entities/film';
+import { DBAPI, type Film } from '~/entities/film';
 
 export class UnwatchedFilmFeature extends Feature<Promise<void>> {
   async execute(id: Film['id']): Promise<void> {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { AppText, FormInput, AppLoader, ButtonApp } from '~/shared/ui';
 import ResultList from './result-list.vue';
-import { Film } from '~/entities/film';
+import { type Film } from '~/entities/film';
 import lo from 'lodash';
 import { DBAPI } from '~/entities/film';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
-import { ResultItem, SearchResult } from './types';
+import type { ResultItem, SearchResult } from './types';
 import { addQuerySearch, getQuerySearch } from './last-query-list';
 // commonJs import
 const { throttle } = lo;

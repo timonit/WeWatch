@@ -1,6 +1,6 @@
 import { GoogleAPI } from '~/shared/utils';
 import { initDBData } from './constants';
-import { DBData } from './types';
+import type { DBData } from './types';
 
 export class DBAPI extends GoogleAPI {
   discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];

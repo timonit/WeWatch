@@ -1,6 +1,6 @@
-import { AsyncData, useFetch } from 'nuxt/app';
-import { Film } from '~/entities/film/types';
-import { MediaTypes } from '~/shared';
+import type { AsyncData, useFetch } from 'nuxt/app';
+import type { Film } from '~/entities/film/types';
+import type { MediaTypes } from '~/shared';
 
 export abstract class Fetcher<T> {
   isFetching = ref(true);

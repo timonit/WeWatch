@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppTool, AppIcon, AppLoader } from '~/shared/ui';
-import { DBAPI, Film } from '~/entities/film';
+import { DBAPI, type Film } from '~/entities/film';
 import { useAuthState } from '~/entities/auth';
 import { WatchedFilmFeature } from '../model/watched-film.feature';
 import { UnwatchedFilmFeature } from '../model/unwatched-film.feature';

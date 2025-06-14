@@ -1,5 +1,5 @@
-import { Cast } from './cast';
-import { Crew } from './crew';
+import type { Cast } from './cast';
+import type { Crew } from './crew';
 
 export type Credits = {
   cast: Cast[];

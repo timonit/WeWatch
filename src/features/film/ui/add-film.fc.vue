@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AppTool, AppIcon, AppLoader } from '~/shared/ui';
 import { AddFilmFeature } from '../model';
-import { Film } from '~/entities/film';
+import type { Film } from '~/entities/film';
 import { useAuthState } from '~/entities/auth';
 
 const props = defineProps<{film: Film, type: 'movie' | 'tv'}>();

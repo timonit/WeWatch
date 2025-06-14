@@ -1,5 +1,5 @@
 import { AuthAPI } from '~/entities/auth';
-import { getTokenFromLS, saveTokenToLS, TokenData } from '~/shared/utils';
+import { getTokenFromLS, saveTokenToLS, type TokenData } from '~/shared/utils';
 import { Feature } from '~/shared/model';
 
 export class RestoreAuthFromLSFeature extends Feature<Promise<TokenData | undefined>> {

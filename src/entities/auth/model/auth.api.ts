@@ -1,5 +1,5 @@
 import { GoogleAPI } from '~/shared/utils';
-import { UserInfo } from '../user-info';
+import type { UserInfo } from '../user-info';
 import { useAuthState } from './auth.state';
 
 export class AuthAPI extends GoogleAPI {

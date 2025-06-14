@@ -1,5 +1,5 @@
-import { Placement } from '@floating-ui/vue';
-import { DirectiveBinding } from 'vue';
+import type { Placement } from '@floating-ui/vue';
+import type { DirectiveBinding } from 'vue';
 
 export type TooltipBinding = {
   value: HTMLElement,

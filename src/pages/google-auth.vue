@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AuthAPI } from '~/entities/auth';
-import { saveTokenToLS, TokenData } from '~/shared/utils';
+import { saveTokenToLS, type TokenData } from '~/shared/utils';
 
 const route = useRoute();
 const tokenState = useState<TokenData | null>('state', () => null);

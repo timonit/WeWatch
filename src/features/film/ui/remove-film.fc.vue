@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppTool, AppIcon, AppLoader } from '~/shared/ui';
-import { Film } from '~/entities/film';
+import type { Film } from '~/entities/film';
 import { RemoveFilmFeature } from '../model';
 import { useAuthState } from '~/entities/auth';
 
