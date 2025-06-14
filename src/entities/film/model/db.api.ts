@@ -1,11 +1,19 @@
-import { GoogleAPI } from '~/shared/utils';
+import { GoogleAPI, googleOptions } from '~/shared/utils';
 import { initDBData } from './constants';
 import type { DBData } from './types';
 
+@googleOptions({
+  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+  scope: [
+    'email',
+    'profile',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/drive.file',
+    'openid',
+    'https://www.googleapis.com/auth/userinfo.profile',
+  ],
+})
 export class DBAPI extends GoogleAPI {
-  discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
-  scope = 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file openid https://www.googleapis.com/auth/userinfo.profile';
-
   folderName = 'WeWatch';
   dbFileName = 'DBWeWatch11551122.json';
   descriptionFile = 'Data base file by WeWatch';
@@ -14,7 +22,7 @@ export class DBAPI extends GoogleAPI {
 
   data: DBData = reactive(initDBData);
 
-  async onInited() {
+  override async onInited() {
     await this.fetchList();
   }
 

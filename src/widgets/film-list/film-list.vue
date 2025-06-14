@@ -24,7 +24,6 @@ const filter = (list: MainDataFilm[]) => {
 };
 
 onBeforeMount(async () => {
-  const db = await DBAPI.instance();
   isFetching.value = db.isFetching.value;
 
   unWatch = watch(
