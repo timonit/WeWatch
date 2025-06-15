@@ -42,9 +42,8 @@ export class FilmService {
   
   async fetchFilm () {
     this.isFetching.value = true;
-    const res = await useFetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
-
-    if (res.data.value) this.film.value = res.data.value;
+    const res = await $fetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
+    if (res) this.film.value = res;
     this.updateExist();
 
     this.isFetching.value = false;
@@ -78,8 +77,8 @@ export class FilmService {
     
     if (this.mediaType.value === 'movie') return this.film.value.imdb_id;
     if (this.mediaType.value === 'tv') {
-      const result = await useFetch<{'imdb_id': string}>(`/api/${this.mediaType.value}/${this.film.value.id}/external-id`);
-      return result.data.value?.imdb_id;
+      const result = await $fetch<{'imdb_id': string}>(`/api/${this.mediaType.value}/${this.film.value.id}/external-id`);
+      return result?.imdb_id;
     }
     return undefined;
   }
@@ -87,8 +86,8 @@ export class FilmService {
   async fetchPlayers() {
     this.playersIsFetching.value = true;
     
-    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players?imdb=${await this.getIMDB_ID()}`);
-    this.players.value = videos.data.value ?? [];
+    const videos = await $fetch<PlayerDTO[]>(`https://kinobox.tv/api/players?imdb=${await this.getIMDB_ID()}`);
+    this.players.value = videos ?? [];
 
     this.playersIsFetching.value = false;
   }
@@ -96,9 +95,8 @@ export class FilmService {
   async fetchTrailers() {
     if (this.film.value) {
       this.trailersIsFetching.value = true;
-      const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/${this.mediaType.value}/${this.film.value.id}/video`);
-      
-      if(resTrailers.data.value) this.trailers.value = resTrailers.data.value?.results;
+      const resTrailers = await $fetch<{results: VideoDTO[]}>(`/api/${this.mediaType.value}/${this.film.value.id}/video`);
+      if(resTrailers) this.trailers.value = resTrailers?.results;
       this.trailersIsFetching.value = false;
     }
   }

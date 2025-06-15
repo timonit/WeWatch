@@ -9,20 +9,18 @@ export abstract class Fetcher<T> {
 
   mediaType: MediaTypes;
 
-  asyncData: AsyncData<T, any>;
+  asyncData?: T;
 
   abstract getURL(): string;
 
   constructor(film: Film, mediaType: MediaTypes) {
     this.film = film;
     this.mediaType = mediaType;
-
-    const url = this.getURL();
-    // @ts-ignore
-    this.asyncData = useFetch<Ref<string>, any>(url, {server: false, immediate: false});
   }
 
   async fetch() {
-    return this.asyncData.execute();
+    const url = this.getURL();
+    this.asyncData = await $fetch<T>(url);
+    return this.asyncData;
   }
 }
