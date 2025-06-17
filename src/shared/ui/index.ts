@@ -1,6 +1,7 @@
 export * from './form';
 export * from './toolbar';
-export * from './button'
+export * from './button';
+export * from './menu';
 
 import AppText from './app-text.vue';
 import AppLoader from './app-loader.vue';
