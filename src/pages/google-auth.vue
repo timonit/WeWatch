@@ -25,7 +25,7 @@ onBeforeMount(async () => {
     AuthAPI.setToken(tokenState.value);
     appInited.value = true;
   
-    await AuthAPI.instance();
+    await AuthAPI.initClientLib();
   }
     
   // переходим и запрещаем переходить назад на авторизационную страницу

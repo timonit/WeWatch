@@ -11,16 +11,22 @@ export abstract class GoogleAPI {
     return !!this.token;
   }
 
+  static inited = false;
+
   // жизненый хук, запускается после иниализации 
+  static onInited?(): void | Promise<void>;
+  
   onInited?(): void | Promise<void>;
 
   static loadLib(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.loaded) return resolve();
-
+      
       gapi.load('client', async () => {
         try {
           this.loaded = true;
+          await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest');
+
           resolve();
         } catch(e) {
           console.error('Error in loadLib: ', e);
@@ -36,7 +42,7 @@ export abstract class GoogleAPI {
         if (!GoogleAPI.token) throw 'Token is not installed';
   
         const { scope, discoveryDocs } = googleOptionsStorage;
-        await gapi.client.init({ scope, discoveryDocs });
+        await gapi.client.init({ scope: scope.join(' '), discoveryDocs });
         res();
       } catch(e) {
         console.error('Error in initClientLib: ', e);
@@ -59,35 +65,33 @@ export abstract class GoogleAPI {
     console.debug('token cleared');
   }
 
-  static async instance<T extends GoogleAPI>(this: {new (): T}): Promise<T> {
+  static instance<T extends GoogleAPI>(this: {new (): T}): T {
     const className = this.prototype.constructor.name;
     let instance: T;
-    
-    if (GoogleAPI.loading) await GoogleAPI.loading;
-    else {
-      if (!GoogleAPI.loaded) await GoogleAPI.loadLib();
-      await GoogleAPI.initClientLib();
-      // @ts-ignore
-      instance = new this();
-      await instance.init();
-      GoogleAPI.instances[className] = instance;
-      return instance;
-    }
 
     instance = GoogleAPI.instances[className] as T;
-    if (instance) return instance;
+    if (!instance) {
+      instance = new this();
+      GoogleAPI.instances[className] = instance;
+    }
 
-    // @ts-ignore
-    instance = new this();
-    await instance.init();
-    GoogleAPI.instances[className] = instance;
     return instance;
   }
 
-  async init(): Promise<void> {
+  async init() {
     if (this.onInited) {
       const res = this.onInited();
       if (res instanceof Promise) await res;
     }
   }
+
+  static async init<T extends GoogleAPI>(this: {new (): T} & { onInited?: () => void | Promise<void>, instance:() => T, inited: boolean}): Promise<void> {
+    if (this.onInited) {
+      const res = this.onInited();
+      if (res instanceof Promise) await res;
+    }
+    const instance = this.instance();
+    await instance.init();
+    this.inited = true;
+  }  
 }

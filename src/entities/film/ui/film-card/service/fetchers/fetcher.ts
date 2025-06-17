@@ -1,4 +1,3 @@
-import type { AsyncData, useFetch } from 'nuxt/app';
 import type { Film } from '~/entities/film/types';
 import type { MediaTypes } from '~/shared';
 

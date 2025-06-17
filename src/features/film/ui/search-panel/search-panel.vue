@@ -3,7 +3,6 @@ import { AppText, FormInput, AppLoader, ButtonApp } from '~/shared/ui';
 import ResultList from './result-list.vue';
 import { type Film } from '~/entities/film';
 import lo from 'lodash';
-import { DBAPI } from '~/entities/film';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
 import type { ResultItem, SearchResult } from './types';
 import { addQuerySearch, getQuerySearch } from './last-query-list';
@@ -50,12 +49,10 @@ const search = throttle(async (e: Event) => {
 }, 700);
 
 onMounted(async () => {
-  await DBAPI.instance();
   lastQueries.value = getQuerySearch();
 });
 
 const formEl = ref<HTMLElement>();
-const btnEl = ref<HTMLElement>();
 const height = computed(() => {
   return `calc(100% - ${formEl.value?.offsetHeight}px - ${formEl.value?.offsetHeight}px)`;
 })

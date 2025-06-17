@@ -11,17 +11,17 @@ export class RestoreAuthFromLSFeature extends Feature<Promise<TokenData | undefi
       const nowDate = new Date();
 
       if (expiryDate <= nowDate) {
-        const res = await useFetch(
+        const res = await $fetch(
           '/api/auth/google-refresh-token', 
           { method: 'POST', body: tokens }
         );
-        tokens = res.data.value as TokenData;
+        tokens = res as TokenData;
         console.debug('token refreshed');
         saveTokenToLS(tokens);
       }
 
       AuthAPI.setToken(tokens);
-      AuthAPI.instance();
+      await AuthAPI.initClientLib();
       return tokens;
     }
     console.debug('token not installed');

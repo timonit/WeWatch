@@ -29,8 +29,10 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-   <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
-    <AppLoader size="lg" />
+   <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center">
+     <AppLoader size="lg" />
+     <AppText class="mt-4" variant="bold" v-if="app.status.value !== 'inited'">{{ app.status.value }}</AppText>
+     <AppText class="mt-2" variant="bold" v-else>Приложение успешно инициализировано</AppText>
   </div>
   <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 min-h-screen'>
     

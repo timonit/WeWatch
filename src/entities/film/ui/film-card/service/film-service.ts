@@ -36,25 +36,33 @@ export class FilmService {
   }
 
   async init() {
-    this.db = await DBAPI.instance();
-    this.setFilm(this.filmID, this.mediaType.value);
+    try {
+      this.setFilm(this.filmID, this.mediaType.value);
+      this.db = await DBAPI.instance();
+    } catch(err) {
+      if (err !== 'Token is not installed') return ;
+    }
   }
   
   async fetchFilm () {
-    this.isFetching.value = true;
-    const res = await $fetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
-    if (res) this.film.value = res;
-    this.updateExist();
-
-    this.isFetching.value = false;
-
-    this.fetchPlayers();
-    this.fetchTrailers();
     try {
+      this.isFetching.value = true;
+      const res = await $fetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
+      if (res) this.film.value = res;
+      this.updateExist();
+  
+      this.isFetching.value = false;
+  
+      this.fetchPlayers();
+      this.fetchTrailers();
+      
       this.collects = new FilmCollectsFetcher(this.film.value, this.mediaType.value);
+      this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
     } catch(err) {
+      console.error('Error fetching film:', err);
+      this.isFetching.value = false;
+      this.film.value = undefined;
     }
-    this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
   };
 
   setFilm(filmID: Film['id'], mediaType: MediaTypes) {
@@ -64,7 +72,7 @@ export class FilmService {
   }
   
   updateExist = () => {
-    if (this.film.value){
+    if (this.film.value && this.db) {
       const filmExist = this.db.data.list.find((itemFilm) => {
         return itemFilm.id === this.film.value.id
       });

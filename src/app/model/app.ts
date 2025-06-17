@@ -13,8 +13,8 @@ export class App extends BaseApp {
   ]
 
   override async onInited(): Promise<void> {
-    await AuthAPI.instance();
-    await DBAPI.instance();
+    await AuthAPI.init();
+    await DBAPI.init();
   }
 }
 

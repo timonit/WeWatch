@@ -1,4 +1,4 @@
-import { GoogleAPI, googleOptions } from '~/shared/utils';
+import { GoogleAPI, googleOptions, googleOptionsStorage } from '~/shared/utils';
 import type { UserInfo } from '../user-info';
 import { useAuthState } from './auth.state';
 
@@ -26,7 +26,9 @@ export class AuthAPI extends GoogleAPI {
   }
 
   async getUserInfo(): Promise<UserInfo> {
-    const userInfo = (await gapi.client.oauth2.userinfo.get()).result;
+    if (!('oauth2' in gapi.client)) await gapi.client.load('oauth2', 'v2');
+
+    const userInfo = (await (gapi.client as any).oauth2.userinfo.get()).result;
     return userInfo;
   }
 }

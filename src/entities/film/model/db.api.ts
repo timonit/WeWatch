@@ -23,7 +23,7 @@ export class DBAPI extends GoogleAPI {
   data: DBData = reactive(initDBData);
 
   override async onInited() {
-    await this.fetchList();
+    if (DBAPI.hasToken) await this.fetchList();
   }
 
   async fetchList() {
