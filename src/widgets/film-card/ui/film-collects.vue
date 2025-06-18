@@ -10,6 +10,7 @@ onMounted(async () => {
   if (!collects) return;
   loading.value = true;
   await collects.fetch();
+  
   loading.value = false;
 });
 </script>
@@ -20,10 +21,10 @@ onMounted(async () => {
       <AppLoader size="md" />
     </div>
     <template v-else>
-      <AppText v-if="!collects.asyncData?.parts.length" variant="simple" class="mt-6">...иквелов нет</AppText>
+      <AppText v-if="!collects.data?.parts.length" variant="simple" class="mt-6">...иквелов нет</AppText>
       <RouterLink
         v-else
-        v-for="movie of collects.asyncData?.parts"
+        v-for="movie of collects.data?.parts"
         :to="{
           path: '/',
           query: {

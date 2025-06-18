@@ -1,25 +1,17 @@
 import type { Film } from '~/entities/film/types';
 import type { MediaTypes } from '~/shared';
+import { Fetcher } from '~/shared/model/fetcher';
 
-export abstract class Fetcher<T> {
+export abstract class FilmFetcher<T> extends Fetcher<T> {
   isFetching = ref(true);
 
   film: Film;
 
   mediaType: MediaTypes;
 
-  asyncData?: T;
-
-  abstract getURL(): string;
-
   constructor(film: Film, mediaType: MediaTypes) {
+    super();
     this.film = film;
     this.mediaType = mediaType;
-  }
-
-  async fetch() {
-    const url = this.getURL();
-    this.asyncData = await $fetch<T>(url);
-    return this.asyncData;
   }
 }

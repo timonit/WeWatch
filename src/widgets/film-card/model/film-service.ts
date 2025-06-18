@@ -38,7 +38,7 @@ export class FilmService {
   async init() {
     try {
       this.setFilm(this.filmID, this.mediaType.value);
-      this.db = await DBAPI.instance();
+      this.db = DBAPI.instance();
     } catch(err) {
       if (err !== 'Token is not installed') return ;
     }

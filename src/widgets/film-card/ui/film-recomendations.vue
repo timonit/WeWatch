@@ -21,10 +21,10 @@ onMounted(async () => {
       <AppLoader size="md" />
     </div>
     <template v-else>
-      <AppText v-if="!recommendations.asyncData?.results.length" variant="simple" class="mt-6">Рекоммендаций нет</AppText>
+      <AppText v-if="!recommendations.data?.results.length" variant="simple" class="mt-6">Рекоммендаций нет</AppText>
       <RouterLink
         v-else
-        v-for="movie of recommendations.asyncData.results"
+        v-for="movie of recommendations.data.results"
         :to="{
           path: '/',
           query: {
