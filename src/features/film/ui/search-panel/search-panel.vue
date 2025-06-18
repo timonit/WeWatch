@@ -27,15 +27,15 @@ const search = throttle(async (e: Event) => {
     isLoading.value = true;
     
     if (val.trim()) {
-      const result = await useFetch<SearchResult>(
+      const result = await $fetch<SearchResult>(
         '/api/movie/search',
         {
           query: { query: val },
         }
       );
 
-      if (result.data.value) {
-        results.value = result.data.value?.results;
+      if (result) {
+        results.value = result?.results;
         isLoading.value = false;
       }
     }

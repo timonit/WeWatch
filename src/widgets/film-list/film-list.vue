@@ -65,6 +65,7 @@ onUnmounted(() => unWatch());
 .item {
   cursor: pointer;
   font-size: .8em;
+  transition: background-color 0.2s ease-in-out;
   
   &.active {
     background-color: rgba($color: #000, $alpha: 0.2);

@@ -34,7 +34,7 @@ const authState = useAuthState();
               <span>{{ authState.userInfo.given_name }}</span>
             </div>
             <hr class="border-gray-200" />
-            <div class="py-2 px-3 flex items-center">
+            <div class="py-2 px-3 flex items-center hover:bg-gray-100 transition-colors">
               <LogoutFC class="cursor-pointer"/>
             </div>
           </div>

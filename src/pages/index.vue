@@ -1,20 +1,10 @@
 <script setup lang="ts">
-import type { Film } from '~/entities/film';
 import { FilmCard } from '~/widgets/film-card';
 import { SearchPanel } from '~/features/film';
 import { AppText, AppIcon } from '~/shared/ui';
 import { useControlSide } from '~/shared/ui/layout/useControlSide';
 
-const route = useRoute();
 const { close: closeSide } = useControlSide();
-const currentFilm = ref<Film | null>(null);
-
-const selectFilm = async (id: Film['id']) => {
-  const res = await useFetch<Film>(`/api/movie/${id}`);
-  currentFilm.value = res.data.value as Film;
-}
-
-if (route.query.id) selectFilm(Number(route.query.id));
 
 const isMobile = ref(false);
 onBeforeMount(() => {
