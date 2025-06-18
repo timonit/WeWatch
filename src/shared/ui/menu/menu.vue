@@ -2,7 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const open = ref(false);
-const wrapper = ref(null);
+const wrapper = ref<HTMLElement | null>(null);
 
 const toggleMenu = () => open.value = !open.value;
 
@@ -32,11 +32,6 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', closeMenu));
 </template>
 
 <style scoped>
-.menu-wrapper {
-  display: inline-block;
-  position: relative;
-}
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.15s;
 }
