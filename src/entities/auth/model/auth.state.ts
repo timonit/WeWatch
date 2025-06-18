@@ -1,4 +1,4 @@
-import { UserInfo } from '../user-info';
+import type { UserInfo } from '../user-info';
 
 type AuthState = {
   authorized: true,

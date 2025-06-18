@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { WatchStopHandle } from 'nuxt/dist/app/compat/capi';
-import { DBAPI, MainDataFilm } from '~/entities/film';
+// import { WatchStopHandle } from 'nuxt/dist/app/compat/capi';
+import { DBAPI, type MainDataFilm } from '~/entities/film';
 import { AppLoader, AppText, AppSelectList } from '~/shared/ui';
 import FilmListFilter from './film-list.filter.vue';
-import { FilterFields } from './types';
+import type { FilterFields } from './types';
+import type { WatchStopHandle } from 'vue';
 
 const db = await DBAPI.instance();
 const emit = defineEmits<{(e: 'selectFilm', film: any): void}>();
@@ -23,7 +24,6 @@ const filter = (list: MainDataFilm[]) => {
 };
 
 onBeforeMount(async () => {
-  const db = await DBAPI.instance();
   isFetching.value = db.isFetching.value;
 
   unWatch = watch(
@@ -65,6 +65,7 @@ onUnmounted(() => unWatch());
 .item {
   cursor: pointer;
   font-size: .8em;
+  transition: background-color 0.2s ease-in-out;
   
   &.active {
     background-color: rgba($color: #000, $alpha: 0.2);

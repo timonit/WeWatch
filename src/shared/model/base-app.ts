@@ -5,7 +5,7 @@ import { StageFactory } from './stage.factory';
 export abstract class BaseApp extends EventTarget {
   isInited = ref(false);
 
-  status = ref('no init');
+  status = ref('loading');
 
   stages: {new (app: BaseApp): StageApp}[] = [];
 
@@ -21,13 +21,12 @@ export abstract class BaseApp extends EventTarget {
   async init() {
     for (let Stage of this.stages) await this.executeStage(Stage);
 
-      this.status.value = 'inited';
-      console.debug('app', this.status.value);
-  
-      this.isInited.value = true;
-  
-      if (this.onInited) this.onInited();
+    this.status.value = 'inited';
+    console.debug('app', this.status.value);
+
+    if (this.onInited) await this.onInited();
     
+    this.isInited.value = true;
   }
 
   async executeStage(Stage: {new (app: BaseApp): StageApp}) {

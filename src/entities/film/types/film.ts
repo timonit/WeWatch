@@ -1,10 +1,10 @@
-import { Genre } from './genre';
-import { Company } from './company';
-import { Country } from './country';
-import { SpokenLanguage } from './spoken-language';
-import { Status } from './status';
-import { Video } from './video';
-import { Credits } from './credits';
+import type { Genre } from './genre';
+import type { Company } from './company';
+import type { Country } from './country';
+import type { SpokenLanguage } from './spoken-language';
+import type { Status } from './status';
+import type { Video } from './video';
+import type { Credits } from './credits';
 
 export type Film = {
   adult: boolean;

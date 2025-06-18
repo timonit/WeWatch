@@ -1,6 +1,7 @@
-import { Directive } from 'nuxt/dist/app/compat/capi'; 
-import { computePosition, ComputePositionConfig, flip, offset, Placement } from '@floating-ui/dom';
-import { TooltipBinding } from './types/tooltip-binding';
+// import { Directive } from 'nuxt/dist/app/compat/capi'; 
+import { computePosition, type ComputePositionConfig, flip, offset, type Placement } from '@floating-ui/dom';
+import type { TooltipBinding } from './types/tooltip-binding';
+import type { Directive } from 'vue';
 
 type Options = {
   open: boolean,

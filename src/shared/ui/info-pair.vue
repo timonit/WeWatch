@@ -10,6 +10,3 @@ const props = defineProps<{property: string; value: string | number}>();
     <AppText variant="simple" size="sm">{{ props.value }}</AppText>
   </div>
 </template>
-
-<style scoped lang="scss">
-</style>

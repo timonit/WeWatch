@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppSelectList } from '~/shared/ui';
-import { ResultItem } from './types';
+import { type ResultItem } from './types';
 
 const router = useRouter();
 const props = defineProps<{list: ResultItem[]}>();
@@ -45,6 +45,7 @@ const tooltip = ref();
 li {
   cursor: pointer;
   font-size: .8em;
+  transition: background-color 0.2s ease-in-out;
 
   &.active {
     background-color: rgba($color: #000, $alpha: 0.2);
