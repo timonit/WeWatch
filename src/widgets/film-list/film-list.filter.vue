@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FilterFields } from './types';
+import type { FilterFields } from './types';
 
 const state = defineModel<FilterFields>({ required: true });
 

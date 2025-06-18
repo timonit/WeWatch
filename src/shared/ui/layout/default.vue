@@ -29,8 +29,10 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-   <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
-    <AppLoader size="lg" />
+   <div v-if="!isInited" class="fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center">
+     <AppLoader size="lg" />
+     <AppText class="mt-4" variant="bold" v-if="app.status.value !== 'inited'">{{ app.status.value }}</AppText>
+     <AppText class="mt-2" variant="bold" v-else>Приложение успешно инициализировано</AppText>
   </div>
   <div v-else class='layout-container w-3/3 flex flex-col gap-4 px-2 min-h-screen'>
     
@@ -57,7 +59,7 @@ onBeforeMount(async () => {
             <slot name="side"></slot>
           </AppSlideOver>
         </aside>
-        <aside class="max-md:hidden md:w-[280px] h-fit max-h-[80vh] p-4 rounded-md overflow-hidden box-border border flex-shrink-0">
+        <aside class="max-md:hidden md:w-[280px] h-fit max-h-[80vh] p-4 rounded-md overflow-hidden box-border flex-shrink-0">
           <slot name="side"></slot>
         </aside>
       </template>
@@ -83,6 +85,5 @@ onBeforeMount(async () => {
 aside {
   background-color: var(--bg-secondary);
   box-shadow: 0 5px 5px -3px rgba($color: #000000, $alpha: 0.5);
-  border-color: var(--border-color-secondary);
 }
 </style>

@@ -1,4 +1,4 @@
-import { Fetcher } from './fetcher';
+import { FilmFetcher } from './film-fetcher';
 
 type Film = {
   adult: boolean;
@@ -25,7 +25,7 @@ type RecommendationsResult = {
   results: Film[];
 }
 
-export class FilmRecommendationsFetcher extends Fetcher<RecommendationsResult> {
+export class FilmRecommendationsFetcher extends FilmFetcher<RecommendationsResult> {
   getURL(): string {
     return `/api/${this.mediaType}/${this.film.id}/recommendations`;
   }

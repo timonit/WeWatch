@@ -2,7 +2,7 @@
 import { AppLogo, AppText } from '~/shared/ui';
 import { GoogleLoginFC, LogoutFC } from '~/features/auth';
 import { useAuthState } from '~/entities/auth';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import { Menu } from '~/shared/ui';
 
 const authState = useAuthState();
 </script>
@@ -22,19 +22,22 @@ const authState = useAuthState();
     </div>
     <div class="max-w-1/2 flex justify-end text-right">
       <GoogleLoginFC v-if="!authState.authorized" />
-      <Menu as="div" v-if="authState.authorized" class="flex justify-end items-center gap-2" >
-        <MenuButton>
-          <img class="h-6" :src="authState.userInfo.picture" />
-        </MenuButton>
+      <Menu v-if="authState.authorized" class="flex" >
+        <template #trigger="{ toggle }">
+          <button class="cursor-pointer" slot="trigger" @click="toggle">
+            <img class="h-6" :src="authState.userInfo.picture" />
+          </button>
+        </template>
         <Transition>
-          <MenuItems class="flex flex-col absolute p-3 origin-top-right translate-y-full divide-y rounded-md bg-white shadow-lg text-stone-950">
-            <MenuItem>
+          <div class="flex flex-col overflow-hidden absolute origin-top-right right-0 translate-y-10 rounded-md bg-white text-stone-950">
+            <div class="py-1 px-3 bg-gray-100 flex items-center">
               <span>{{ authState.userInfo.given_name }}</span>
-            </MenuItem>
-            <MenuItem>
-              <LogoutFC />
-            </MenuItem>
-          </MenuItems>
+            </div>
+            <hr class="border-gray-200" />
+            <div class="py-2 px-3 flex items-center hover:bg-gray-100 transition-colors">
+              <LogoutFC class="cursor-pointer"/>
+            </div>
+          </div>
         </Transition>
       </Menu>
       <slot name="rightSide"></slot>

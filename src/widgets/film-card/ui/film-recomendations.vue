@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import { AppText, AppIcon, BadgeWW, AppLoader } from '~/shared/ui';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 
 const service = inject('filmService') as FilmService;
 const recommendations = service.recommendations;
+const loading = ref(false);
 
-onMounted(() => {
+onMounted(async () => {
   if (!recommendations) return;
-  recommendations.fetch();
+  loading.value = true;
+  await recommendations.fetch();
+  
+  loading.value = false;
 })
 </script>
 
 <template>
   <div v-if="recommendations" class="w-full flex gap-4 overflow-x-auto overflow-y-hidden py-1">
-    <div v-if="recommendations.asyncData.pending.value" class="flex justify-center">
+    <div v-if="loading" class="flex justify-center">
       <AppLoader size="md" />
     </div>
     <template v-else>
-      <AppText v-if="!recommendations.asyncData.data.value.results.length" variant="simple" class="mt-6">Рекоммендаций нет</AppText>
+      <AppText v-if="!recommendations.data?.results.length" variant="simple" class="mt-6">Рекоммендаций нет</AppText>
       <RouterLink
         v-else
-        v-for="movie of recommendations.asyncData.data.value.results"
+        v-for="movie of recommendations.data.results"
         :to="{
           path: '/',
           query: {

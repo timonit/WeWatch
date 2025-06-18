@@ -1,7 +1,7 @@
 import { DBAPI } from '~/entities/film/model';
-import { Film } from '~/entities/film/types';
-import { MediaTypes } from '~/shared';
-import { PlayerDTO, VideoDTO } from './types';
+import type { Film } from '~/entities/film/types';
+import type { MediaTypes } from '~/shared';
+import type { PlayerDTO, VideoDTO } from './types';
 import { FilmCollectsFetcher } from './fetchers/film-collects.fetcher';
 import { FilmRecommendationsFetcher } from './fetchers/film-recommendations.fetcher';
 import { EXPORT_URL } from './constants';
@@ -36,26 +36,33 @@ export class FilmService {
   }
 
   async init() {
-    this.db = await DBAPI.instance();
-    this.setFilm(this.filmID, this.mediaType.value);
+    try {
+      this.setFilm(this.filmID, this.mediaType.value);
+      this.db = DBAPI.instance();
+    } catch(err) {
+      if (err !== 'Token is not installed') return ;
+    }
   }
   
   async fetchFilm () {
-    this.isFetching.value = true;
-    const res = await useFetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
-
-    if (res.data.value) this.film.value = res.data.value;
-    this.updateExist();
-
-    this.isFetching.value = false;
-
-    this.fetchPlayers();
-    this.fetchTrailers();
     try {
+      this.isFetching.value = true;
+      const res = await $fetch<Film>(`/api/${this.mediaType.value}/${this.filmID}`);
+      if (res) this.film.value = res;
+      this.updateExist();
+  
+      this.isFetching.value = false;
+  
+      this.fetchPlayers();
+      this.fetchTrailers();
+      
       this.collects = new FilmCollectsFetcher(this.film.value, this.mediaType.value);
+      this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
     } catch(err) {
+      console.error('Error fetching film:', err);
+      this.isFetching.value = false;
+      this.film.value = undefined;
     }
-    this.recommendations = new FilmRecommendationsFetcher(this.film.value, this.mediaType.value);
   };
 
   setFilm(filmID: Film['id'], mediaType: MediaTypes) {
@@ -65,7 +72,7 @@ export class FilmService {
   }
   
   updateExist = () => {
-    if (this.film.value){
+    if (this.film.value && this.db) {
       const filmExist = this.db.data.list.find((itemFilm) => {
         return itemFilm.id === this.film.value.id
       });
@@ -78,8 +85,8 @@ export class FilmService {
     
     if (this.mediaType.value === 'movie') return this.film.value.imdb_id;
     if (this.mediaType.value === 'tv') {
-      const result = await useFetch<{'imdb_id': string}>(`/api/${this.mediaType.value}/${this.film.value.id}/external-id`);
-      return result.data.value?.imdb_id;
+      const result = await $fetch<{'imdb_id': string}>(`/api/${this.mediaType.value}/${this.film.value.id}/external-id`);
+      return result?.imdb_id;
     }
     return undefined;
   }
@@ -87,8 +94,8 @@ export class FilmService {
   async fetchPlayers() {
     this.playersIsFetching.value = true;
     
-    const videos = await useFetch<PlayerDTO[]>(`https://kinobox.tv/api/players?imdb=${await this.getIMDB_ID()}`);
-    this.players.value = videos.data.value ?? [];
+    const videos = await $fetch<PlayerDTO[]>(`https://kinobox.tv/api/players?imdb=${await this.getIMDB_ID()}`);
+    this.players.value = videos ?? [];
 
     this.playersIsFetching.value = false;
   }
@@ -96,9 +103,8 @@ export class FilmService {
   async fetchTrailers() {
     if (this.film.value) {
       this.trailersIsFetching.value = true;
-      const resTrailers = await useFetch<{results: VideoDTO[]}>(`/api/${this.mediaType.value}/${this.film.value.id}/video`);
-      
-      if(resTrailers.data.value) this.trailers.value = resTrailers.data.value?.results;
+      const resTrailers = await $fetch<{results: VideoDTO[]}>(`/api/${this.mediaType.value}/${this.film.value.id}/video`);
+      if(resTrailers) this.trailers.value = resTrailers?.results;
       this.trailersIsFetching.value = false;
     }
   }

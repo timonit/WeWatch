@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AuthAPI } from '~/entities/auth';
-import { saveTokenToLS, TokenData } from '~/shared/utils';
+import { saveTokenToLS, type TokenData } from '~/shared/utils';
 
 const route = useRoute();
 const tokenState = useState<TokenData | null>('state', () => null);
@@ -25,7 +25,7 @@ onBeforeMount(async () => {
     AuthAPI.setToken(tokenState.value);
     appInited.value = true;
   
-    await AuthAPI.instance();
+    await AuthAPI.initClientLib();
   }
     
   // переходим и запрещаем переходить назад на авторизационную страницу

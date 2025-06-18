@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { DBAPI } from '../../model';
-import { FilmService } from './service';
+import { DBAPI } from '~/entities/film';
+import { FilmService } from '../model';
 import { AppText, AppIcon } from '~/shared/ui';
 
-const db = await DBAPI.instance();
+const db = DBAPI.instance();
 const service = inject('filmService') as FilmService;
 const { film, filmIsExist } = service;
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Film, FilmCard } from '~/entities/film';
+import type { Film } from '~/entities/film';
+import { FilmCard } from '~/widgets/film-card';
 import { AppText } from '~/shared/ui';
 import { useControlSide } from '~/shared/ui/layout/useControlSide';
 import { FilmList } from '~/widgets';

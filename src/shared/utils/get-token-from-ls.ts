@@ -1,5 +1,5 @@
 import { STORAGE_KEY } from './constants';
-import { TokenData } from './types';
+import type { TokenData } from './types';
 
 export const getTokenFromLS = (): TokenData | undefined => {
   const token = localStorage.getItem(STORAGE_KEY);

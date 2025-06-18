@@ -1,4 +1,4 @@
-import { DBData } from './types';
+import type { DBData } from './types';
 
 export const initDBData: DBData = {
   appName: "WeWatch",
