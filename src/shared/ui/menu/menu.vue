@@ -18,24 +18,11 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', closeMenu));
 </script>
 
 <template>
-  <div class="menu-wrapper" ref="wrapper">
+  <div class="relative" ref="wrapper">
     <slot name="trigger" :toggle="toggleMenu" :open="open"></slot>
-    <div
-      v-show="open"
-      class="menu"
-      ref="menu"
-      @click.stop
-    >
+
+    <div v-show="open" ref="menu" @click.stop >
       <slot></slot>
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.15s;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-</style>

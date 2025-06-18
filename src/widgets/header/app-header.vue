@@ -22,14 +22,14 @@ const authState = useAuthState();
     </div>
     <div class="max-w-1/2 flex justify-end text-right">
       <GoogleLoginFC v-if="!authState.authorized" />
-      <Menu v-if="authState.authorized" class="flex justify-end items-center gap-2" >
-        <template #trigger="{ open, toggle }">
+      <Menu v-if="authState.authorized" class="flex" >
+        <template #trigger="{ toggle }">
           <button class="cursor-pointer" slot="trigger" @click="toggle">
             <img class="h-6" :src="authState.userInfo.picture" />
           </button>
         </template>
         <Transition>
-          <div class="flex flex-col overflow-hidden absolute origin-top-right right-0 translate-y-1 rounded-md bg-white text-stone-950">
+          <div class="flex flex-col overflow-hidden absolute origin-top-right right-0 translate-y-10 rounded-md bg-white text-stone-950">
             <div class="py-1 px-3 bg-gray-100 flex items-center">
               <span>{{ authState.userInfo.given_name }}</span>
             </div>
