@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppText, AppLoader } from '~/shared/ui';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 import YoutubePlayer from '~/shared/ui/youtube.player.vue';
 
 const service = inject('filmService') as FilmService;

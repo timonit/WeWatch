@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppText, AppIcon, BadgeWW, AppLoader } from '~/shared/ui';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 
 const service = inject('filmService') as FilmService;
 const recommendations = service.recommendations;

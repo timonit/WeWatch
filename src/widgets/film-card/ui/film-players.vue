@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FilmService, type PlayerDTO } from './service';
+import { FilmService, type PlayerDTO } from '../model';
 import { AppText, AppLoader } from '~/shared/ui';
 
 const playerIsLoading = ref(false);

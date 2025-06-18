@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ImgResize from '~/shared/ui/img-resize.vue';
 import InfoPair from './info-pair.vue';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 
 const service = inject('filmService') as FilmService;
 

@@ -1,3 +1,3 @@
 import FilmCard from './film-card.vue';
 
-export default FilmCard;
+export {FilmCard};

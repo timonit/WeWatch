@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Film } from '../../types';
+import type { Film } from '~/entities/film';
 import { onBeforeMount } from 'vue';
 import FilmTrailers from './film-trailers.vue';
 import type { MediaTypes } from '~/shared';
@@ -8,7 +8,7 @@ import FilmInfo from './film-info.vue';
 import FilmDescription from './film-description.vue';
 import FilmToolbar from './film-toolbar.vue';
 import FilmHeader from './film-header.vue';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 import { AppLoader } from '~/shared/ui';
 import FilmCollects from './film-collects.vue';
 import AppCollapse from '~/shared/ui/app-collapse.vue';

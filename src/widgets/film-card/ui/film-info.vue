@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InfoPair from './info-pair.vue';
 import { BadgeWW } from '@/shared/ui';
-import { FilmService } from './service';
+import { FilmService } from '../model';
 import AppCollapse from '~/shared/ui/app-collapse.vue';
 
 const service = inject('filmService') as FilmService;
