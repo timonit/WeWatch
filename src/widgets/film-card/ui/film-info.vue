@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InfoPair from './info-pair.vue';
+import InfoPair from '~/shared/ui/info-pair.vue';
 import { BadgeWW } from '@/shared/ui';
 import { FilmService } from '../model';
 import AppCollapse from '~/shared/ui/app-collapse.vue';

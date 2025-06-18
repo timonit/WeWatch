@@ -10,7 +10,7 @@ import BadgeWW from './badge-ww.vue'
 import AppIcon from './app-icon.vue';
 import AppSelectList from './app-select-list.vue';
 import AppSlideOver from './app-slide-over.vue';
-
+import infoPair from './info-pair.vue';
 
 export {
   AppText,
@@ -20,4 +20,5 @@ export {
   AppIcon,
   AppSelectList,
   AppSlideOver,
+  infoPair,
 }
