@@ -5,3 +5,9 @@ export const initDBData: DBData = {
   list: [],
   watched: [],
 }
+
+export const FILM_TYPE = {
+  movie: 'Полнометражный',
+  tv: 'Сериал',
+  people: 'Персона',
+}

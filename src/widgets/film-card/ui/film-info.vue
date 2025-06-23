@@ -3,6 +3,7 @@ import InfoPair from '~/shared/ui/info-pair.vue';
 import { BadgeWW } from '@/shared/ui';
 import { FilmService } from '../model';
 import AppCollapse from '~/shared/ui/app-collapse.vue';
+import { FILM_TYPE } from '~/entities/film';
 
 const service = inject('filmService') as FilmService;
 
@@ -14,7 +15,7 @@ const extensionCollapsed = ref(true);
   <div v-if="film">
     <div class="info-panel flex gap-4 justify-between max-md:flex-wrap">
       <div class="info-panel order-1 max-md:order-2">
-        <InfoPair property="тип" :value="service.mediaType.value" />
+        <InfoPair property="тип" :value="FILM_TYPE[service.mediaType.value]" />
         <InfoPair v-if="film.production_companies" property="Компании" :value="film.production_companies.map(g => g.name).join(', ')" />
         <InfoPair property="Бюджет" :value="`${(film.budget || 0).toLocaleString()} $`" />
         <InfoPair property="Сборы" :value="`${(film.revenue || 0).toLocaleString()} $`" />
