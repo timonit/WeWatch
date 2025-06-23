@@ -4,12 +4,13 @@ import ResultList from './result-list.vue';
 import { type Film } from '~/entities/film';
 import lo from 'lodash';
 import { Disclosure, DisclosureButton,DisclosurePanel } from '@headlessui/vue';
-import type { ResultItem, SearchResult } from './types';
+import type { SearchResult } from './types';
 import { addQuerySearch, getQuerySearch } from './last-query-list';
+import type { SearchResultItem } from '~/entities/film/types/search-result';
 // commonJs import
 const { throttle } = lo;
 
-const results = ref<ResultItem[]>([]);
+const results = ref<SearchResultItem[]>([]);
 const isLoading = ref<boolean>(false);
 const searchText = ref<string>('');
 const lastQueries = ref<string[]>([]);
@@ -35,6 +36,7 @@ const search = throttle(async (e: Event) => {
       );
 
       if (result) {
+        console.log('search result', result);
         results.value = result?.results;
         isLoading.value = false;
       }

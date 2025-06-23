@@ -1,16 +1,16 @@
 <script setup lang="ts">
+import type { SearchResultItem } from '~/entities/film/types/search-result';
 import { AppSelectList } from '~/shared/ui';
-import { type ResultItem } from './types';
 
 const router = useRouter();
-const props = defineProps<{list: ResultItem[]}>();
+const props = defineProps<{list: SearchResultItem[]}>();
 const emit = defineEmits<{
-  (e: 'selected', film: ResultItem): void
+  (e: 'selected', film: SearchResultItem): void
 }>();
 
-const selected = ref<ResultItem | undefined>();
-const select = (item: ResultItem) => selected.value = item;
-const go = (item: ResultItem) => {
+const selected = ref<SearchResultItem | undefined>();
+const select = (item: SearchResultItem) => selected.value = item;
+const go = (item: SearchResultItem) => {
   emit('selected', item);
   router.push({ path: '/', query: { id: item.id, type: item.media_type } });
 }
@@ -29,7 +29,7 @@ const tooltip = ref();
         @click="go(item)"
         @mouseenter="select(item)"
       >
-        {{ item.title || item.name }} ({{ new Date(item.release_date || item.first_air_date).getFullYear() }})
+        {{ item.title || item.name }} ({{ item.media_type === 'person' ? 'Персона' : new Date(item.release_date || item.first_air_date).getFullYear() }})
       </li>
     </template>
   </AppSelectList>
